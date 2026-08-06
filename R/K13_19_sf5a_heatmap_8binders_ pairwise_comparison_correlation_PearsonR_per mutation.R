@@ -9,7 +9,7 @@ library(reshape2)
 library(pheatmap)
 
 # =========================================================
-# 0. 定义 binding interface map（每个 assay 的 interface）
+# 0. Define the binding interface map (the interface for each assay).
 # =========================================================
 
 binding_sites_map <- list(
@@ -23,11 +23,11 @@ binding_sites_map <- list(
   K19 = c(68, 87, 88, 90, 91, 92, 94, 95, 97, 98, 99, 101, 102, 105, 107, 108, 125, 129, 133, 136, 137)
 )
 
-# 定义binder的固定顺序
+# Define the fixed order of binders.
 BINDER_ORDER <- c("RAF1", "RALGDS", "PI3KCG", "SOS1", "K55", "K27", "K13", "K19")
 
 # =========================================================
-# 1. 简化的数据读取函数（只读取必要的ddG值）
+# 1.Simplified data reading function (reads only the necessary ddG values)
 # =========================================================
 load_ddG_data <- function(input, assay_sele) {
   ddG <- fread(input)
@@ -45,15 +45,15 @@ load_ddG_data <- function(input, assay_sele) {
 }
 
 # =========================================================
-# 2. 简化的相关性计算函数
+# 2. Simplified correlation calculation function
 # =========================================================
 calculate_correlation_simple <- function(input_x, input_y, assay_x, assay_y) {
   
-  # 读取数据
+  # Read data
   data_x <- load_ddG_data(input_x, assay_x)
   data_y <- load_ddG_data(input_y, assay_y)
   
-  # 移除 binding interface 位点
+  # Remove binding interface sites.
   if (assay_x %in% names(binding_sites_map)) {
     data_x <- data_x[!(Pos_real %in% binding_sites_map[[assay_x]])]
   }
@@ -61,7 +61,7 @@ calculate_correlation_simple <- function(input_x, input_y, assay_x, assay_y) {
     data_y <- data_y[!(Pos_real %in% binding_sites_map[[assay_y]])]
   }
   
-  # 合并共享突变
+  # Merge shared mutations
   merged_data <- merge(
     data_x[, .(mt, Pos_real, ddG)],
     data_y[, .(mt, Pos_real, ddG)],
@@ -69,7 +69,7 @@ calculate_correlation_simple <- function(input_x, input_y, assay_x, assay_y) {
     suffixes = c(paste0("_", assay_x), paste0("_", assay_y))
   )
   
-  # 计算 Pearson 相关性
+  # Calculate Pearson correlation
   cor_test <- cor.test(merged_data[[paste0("ddG_", assay_x)]],
                        merged_data[[paste0("ddG_", assay_y)]])
   
@@ -81,17 +81,17 @@ calculate_correlation_simple <- function(input_x, input_y, assay_x, assay_y) {
 }
 
 # =========================================================
-# 3. 计算所有 assay 对的相关性（返回矩阵形式）
+# 3. Calculate the correlation between all pairs of assays (returned as a matrix).
 # =========================================================
 calculate_correlation_matrix <- function(input_files, binder_order) {
   assays <- names(input_files)
   n <- length(assays)
   
-  # 按照指定顺序重新排列 assays
+  # Rearrange the assays according to the specified order.
   assays <- binder_order[binder_order %in% assays]
   n <- length(assays)
   
-  # 初始化相关性矩阵
+  # Initialize the correlation matrix.
   cor_matrix <- matrix(NA, nrow = n, ncol = n)
   rownames(cor_matrix) <- assays
   colnames(cor_matrix) <- assays
@@ -100,7 +100,7 @@ calculate_correlation_matrix <- function(input_files, binder_order) {
   rownames(p_matrix) <- assays
   colnames(p_matrix) <- assays
   
-  # 计算所有 pairwise 相关性
+  # Calculate all pairwise correlations.
   for (i in 1:n) {
     for (j in 1:n) {
       if (i == j) {
@@ -129,20 +129,20 @@ calculate_correlation_matrix <- function(input_files, binder_order) {
 }
 
 # =========================================================
-# 4. 绘制聚类热图（使用固定顺序，不聚类）
+# 4. Plot a clustered heatmap (using fixed order, without clustering)
 # =========================================================
 plot_correlation_heatmap <- function(cor_matrix, p_matrix, 
                                      output_file = NULL,
                                      width = 10, 
                                      height = 8) {
   
-  # 定义分组信息（用于行/列注释）
+  # Define grouping information (for row/column annotations)
   BI1_active <- c("RAF1", "RALGDS", "PI3KCG", "SOS1", "K55")
-  BI1_inactive <- c("K27")  # 特殊标记的K27
+  BI1_inactive <- c("K27")  
   BI2 <- c("K13", "K19")
   
-  # 创建注释数据框，为每个assay指定特定颜色
-  # 先创建group标签
+ # Create an annotation data frame and assign a specific color to each assay
+ # First, create the group labels
   annotation_col <- data.frame(
     Group = ifelse(rownames(cor_matrix) %in% BI1_active, "BI1_active", 
                    ifelse(rownames(cor_matrix) %in% BI2, "BI2", 
@@ -150,19 +150,19 @@ plot_correlation_heatmap <- function(cor_matrix, p_matrix,
   )
   rownames(annotation_col) <- rownames(cor_matrix)
   
-  # 定义颜色（K27使用pink）
+  # 
   annotation_colors <- list(
-    Group = c(BI1_active = "#F4270C",      # 红色
-              BI1_inactive = "pink",  # 粉色
-              BI2 = "#1B38A6" )      # 蓝色
-              #Other = "white" )    # 白色
+    Group = c(BI1_active = "#F4270C",     
+              BI1_inactive = "pink", 
+              BI2 = "#1B38A6" )     
+              #Other = "white" )   
     )
     
-    # 定义热图颜色（0为白色）
-    # 使用更精细的颜色梯度，确保0是白色
+    # Define heatmap colors
+​​    # Use a finer color gradient, ensuring 0 is white
     heatmap_colors <- colorRampPalette(c("white", "#F4270C"))(100)
     
-    # 创建显著性标记矩阵（显示所有值，包括NS）
+    # Create a significance marker matrix (showing all values, including NS)
     sig_stars <- matrix("", nrow = nrow(p_matrix), ncol = ncol(p_matrix))
     for (i in 1:nrow(p_matrix)) {
       for (j in 1:ncol(p_matrix)) {
@@ -180,16 +180,16 @@ plot_correlation_heatmap <- function(cor_matrix, p_matrix,
       }
     }
     
-    # 设置对角线为空白
+    # Set the diagonal to blank.
     diag(sig_stars) <- ""
     
-    # 绘制热图（不进行聚类，使用固定顺序）
+    # Plot heatmap (without clustering, using fixed order)
     pheatmap(
       mat = cor_matrix,
       color = heatmap_colors,
-      cluster_rows = FALSE,  # 不进行行聚类
-      cluster_cols = FALSE,  # 不进行列聚类
-      border_color = "grey90",  # 设置边框颜色为白色
+      cluster_rows = FALSE,  
+      cluster_cols = FALSE,  
+      border_color = "grey90",  
       display_numbers = sig_stars,
       number_color = "black",
       number_size = 8,
@@ -213,7 +213,7 @@ plot_correlation_heatmap <- function(cor_matrix, p_matrix,
 }
 
 # =========================================================
-# 7. 运行分析
+# 7. Operational Analysis
 # =========================================================
 
 input_files <- list(
@@ -227,17 +227,17 @@ input_files <- list(
   K19    = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K19.txt"
 )
 
-# 7.1 计算相关性矩阵（用于热图）- 使用固定顺序
+# 7.1 Calculate correlation matrix (for heatmap) – use fixed order
 cat("\n========== Calculating correlation matrix for heatmap ==========\n")
 cor_results <- calculate_correlation_matrix(input_files, BINDER_ORDER)
 cor_matrix <- cor_results$cor_matrix
 p_matrix <- cor_results$p_matrix
 
-# 7.2 输出相关性矩阵
+# 7.2 Output the correlation matrix.
 cat("\n========== Correlation Matrix ==========\n")
 print(cor_matrix)
 
-# 7.3 绘制热图（使用固定顺序，不聚类，0为白色，NS标记）
+# 7.3 Generate a heatmap (fixed order, no clustering, 0 = white, NS marking).
 cat("\n========== Generating heatmap with fixed order ==========\n")
 output_heatmap <- "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/result4_figure5_2/correlation_heatmap_8binder_fixed_order 5.pdf"
 plot_correlation_heatmap(
