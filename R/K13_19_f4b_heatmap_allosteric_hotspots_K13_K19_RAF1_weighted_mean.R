@@ -17,10 +17,10 @@ colour_scheme <- list(
   "pink" = "#FFB0A5"
 )
 
-##### 修改后的函数（整合三个binding partner，无虚线框）
+##### function (integrating three binding partners; no dashed boxes)
 krasddpcams__plot_triple_ddG_heatmap <- function(
     ddG_K13, ddG_K19, ddG_RAF1, anno, wt_aa, colour_scheme,
-    allosteric_sites_list = NULL,  # 命名列表，包含K13, K19, RAF1的变构位点
+    allosteric_sites_list = NULL,  # Named list containing the allosteric sites of K13, K19, and RAF1
     legend_limits = c(-1.3, 3)
 ) {
   
@@ -32,7 +32,7 @@ krasddpcams__plot_triple_ddG_heatmap <- function(
     mt_codon = unlist(aa_list)
   )
   
-  # 读取三个数据集
+  # Load three datasets.
   ddG1 <- krasddpcams__read_ddG(ddG_K13, "K13")
   input1_heatmap <- merge(ddG1, heatmap_tool, by = c("wt_codon", "Pos_real", "mt_codon"), all = T)
   
@@ -48,7 +48,7 @@ krasddpcams__plot_triple_ddG_heatmap <- function(
   
   output <- merge(ddG, anno, by.x = "Pos_real", by.y = "Pos", all = T)
   
-  # 筛选变构位点
+  # Screening for allosteric sites
   if (!is.null(allosteric_sites_list)) {
     all_sites <- unique(c(
       allosteric_sites_list$K13,
@@ -58,23 +58,23 @@ krasddpcams__plot_triple_ddG_heatmap <- function(
     output <- output[Pos_real %in% all_sites, ]
   }
   
-  # 按位点排序（N端到C端）
+  # Sorted by site (N-terminus to C-terminus)
   output[, Pos_real := factor(Pos_real, levels = sort(unique(Pos_real)))]
   
-  # 设置mt_codon和assay的因子水平
+  # Set the factor levels for mt_codon and assay.
   output <- within(output, mt_codon <- factor(mt_codon,
                                               levels = c("D","E","R","H","K","S","T","N","Q",
                                                          "C","G","P","A","V","I","L","M","F","W","Y")))
   
   output <- within(output, assay <- factor(assay, levels = c("K13", "K19", "RAF1")))
   
-  # 创建wtcodon_pos标签
+  # Create wtcodon_pos tags.
   output[, wtcodon_pos := paste0(wt_codon, Pos_real)]
   output[, Pos_num := as.numeric(as.character(Pos_real))]
   output <- output[order(Pos_num), ]
   output[, wtcodon_pos := factor(wtcodon_pos, levels = unique(wtcodon_pos))]
   
-  # 创建主图
+  # plot
   p <- ggplot2::ggplot() + 
     geom_tile(
       data = output,
@@ -114,33 +114,31 @@ krasddpcams__plot_triple_ddG_heatmap <- function(
 }
 
 ##### =====================
-##### 数据准备
+##### Data Preparation
 ##### =====================
 
 wt_aa <- "TEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHHYREQIKRVKDSEDVPMVLVGNKCDLPSRTVDTKQAQDLARSYGIPFIETSAKTRQGVDDAFYTLVREIRKHKEKMSKDGKKKKKKSKTKCVIM"
 
 anno <- fread("C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_8.csv")
 
-# 更新变构位点信息
+# Allosteric site information
 K13_all_allosteric_hotspots <- c(15, 145, 10, 21, 56, 130, 139, 142, 151, 155, 178)
 K19_all_allosteric_hotspots <- c(15, 145, 10, 151, 157, 184)
 RAF1_all_allosteric_hotspots <- c(15, 16, 17, 18, 28, 32, 34, 35, 57, 60, 145, 146, 6, 10, 20, 22, 54, 55, 58, 59, 77, 144, 163, 184)
 
-# 合并所有变构位点并按N-C排序
+# Merge all allosteric sites and sort them from N- to C-terminus.
 all_allosteric_sites <- unique(c(K13_all_allosteric_hotspots, 
                                  K19_all_allosteric_hotspots, 
                                  RAF1_all_allosteric_hotspots))
 all_allosteric_sites <- sort(all_allosteric_sites)
 
-# 准备变构位点列表（用于函数）
+# Prepare a list of allosteric sites (for the function)
 allosteric_list <- list(
   K13 = K13_all_allosteric_hotspots,
   K19 = K19_all_allosteric_hotspots,
   RAF1 = RAF1_all_allosteric_hotspots
 )
 
-##### =====================
-##### 画整合的热图
 ##### =====================
 
 p_triple <- krasddpcams__plot_triple_ddG_heatmap(
@@ -154,13 +152,10 @@ p_triple <- krasddpcams__plot_triple_ddG_heatmap(
   legend_limits = c(-1.3, 3)
 )
 
-# 显示图形
+#
 print(p_triple)
 
 ##### =====================
-##### 保存
-##### =====================
-
 ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260406_start version/figure3/triple_allosteric_sites_heatmap2.pdf", 
        p_triple, width = 10, height = 8, device = cairo_pdf)
 
