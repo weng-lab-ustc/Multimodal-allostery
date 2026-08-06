@@ -133,10 +133,10 @@ plot_energy_distance_decay_expfit_self <- function(input, assay_sele, anno_file,
   p <- ggplot() +
     
     geom_point(data = df_non_bi, aes(x = x, y = y),
-               alpha = 0.1, size = 1.5, color = "#75C2F6") +  # 减小点的大小
+               alpha = 0.1, size = 1.5, color = "#75C2F6") +  
     
     geom_point(data = df_bi, aes(x = x, y = y),
-               alpha = 0.1, size = 1.5, color = "#FFB6C1") +  # 减小点的大小
+               alpha = 0.1, size = 1.5, color = "#FFB6C1") +  
     
     geom_point(data = df_median_non_bi, aes(x = x, y = y),
                color = "#1B38A6", size = 2) +
@@ -157,7 +157,7 @@ plot_energy_distance_decay_expfit_self <- function(input, assay_sele, anno_file,
     scale_x_continuous(limits = x_range, expand = c(0, 0)) +
     scale_y_continuous(limits = y_range, expand = c(0, 0)) +
     
-    theme_classic(base_size = 10) +  # 减小基础字体大小以匹配小图
+    theme_classic(base_size = 10) + 
     
     labs(
       x = title,
@@ -165,7 +165,7 @@ plot_energy_distance_decay_expfit_self <- function(input, assay_sele, anno_file,
     ) +
     
     theme(
-      axis.title = element_text(size = 10),   # 保持相对较小但清晰
+      axis.title = element_text(size = 10),   
       axis.text = element_text(size = 10),
       plot.title = element_text(size = 10)
     )
@@ -180,7 +180,7 @@ plot_energy_distance_decay_expfit_self <- function(input, assay_sele, anno_file,
                       label = annotation_mut,
                       hjust = 1,
                       vjust = 1,
-                      size = 2.8,  # 减小但相对于图形尺寸适中
+                      size = 2.8,  
                       color = "#75C2F6")   
   }
   
@@ -191,7 +191,7 @@ plot_energy_distance_decay_expfit_self <- function(input, assay_sele, anno_file,
                       label = annotation_res,
                       hjust = 1,
                       vjust = 1,
-                      size = 2.8,  # 减小但相对于图形尺寸适中
+                      size = 2.8,  
                       color = "#1B38A6")   
   }
   
@@ -210,8 +210,8 @@ print(plot_raf1)
 
 ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/result3_figure3/RAF1_distance_decay all mutations.pdf", 
        plot_raf1 , device = cairo_pdf,
-       width = 2.5,   # 更小的宽度
-       height = 2.5,  # 更小的高度
+       width = 2.5,   
+       height = 2.5,  
        units = "in",
        dpi = 300)
 
@@ -229,8 +229,8 @@ print(plot_k13)
 
 ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/result3_figure3/K13_distance_decay all mutations.pdf", 
        plot_k13 , device = cairo_pdf,
-       width = 2.5,   # 更小的宽度
-       height = 2.5,  # 更小的高度
+       width = 2.5,   
+       height = 2.5,  
        units = "in",
        dpi = 300)
 
@@ -249,8 +249,8 @@ print(plot_k19)
 
 ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/result3_figure3/K19_distance_decay all mutations.pdf", 
        plot_k19 , device = cairo_pdf,
-       width = 2.5,   # 更小的宽度
-       height = 2.5,  # 更小的高度
+       width = 2.5,  
+       height = 2.5,  
        units = "in",
        dpi = 300)
 
