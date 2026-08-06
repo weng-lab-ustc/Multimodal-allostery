@@ -7,9 +7,6 @@ library(ggplot2)
 library(dplyr)
 
 # =========================================================
-# 全局常量定义
-# =========================================================
-
 COLOR_MAP <- c(
   "Not significant (FDR >= 0.05)" = "grey90",
   "Other (neutral in both)" = "grey90",
@@ -32,7 +29,7 @@ LEGEND_ORDER <- c(
   "Not significant (FDR >= 0.05)"
 )
 
-# 全局binding interface位点映射（可扩展）
+# binding interface site
 BINDING_SITES_MAP <- list(
   RAF1 = c(21, 25, 29, 31, 33, 36, 37, 38, 39, 40, 41, 67, 71),
   K55  = c(5, 24, 25, 31, 33, 36, 37, 38, 39, 40, 54, 56, 64, 66, 67, 70, 73, 74),
@@ -41,12 +38,12 @@ BINDING_SITES_MAP <- list(
   K19  = c(68, 87, 88, 90, 91, 92, 94, 95, 97, 98, 99, 101, 102, 105, 107, 108, 125, 129, 133, 136, 137)
 )
 
-# NBP residues (需要标记为三角形的位点)
+# NBP residues (sites to be marked with a triangle)
 NBP_RESIDUES <- c(12, 13, 14, 15, 16, 17, 18, 28, 29, 30, 32, 34, 35, 
                   57, 60, 61, 116, 117, 119, 120, 145, 146, 147)
 
 # =========================================================
-# 数据读取函数
+# Data reading function
 # =========================================================
 load_mutation_data <- function(input, assay_sele) {
   if (is.character(input)) {
@@ -71,7 +68,7 @@ load_mutation_data <- function(input, assay_sele) {
 }
 
 # =========================================================
-# 计算阈值
+# Calculate threshold
 # =========================================================
 calculate_threshold <- function(data, assay_sele, anno) {
   anno_data <- fread(anno)
@@ -97,7 +94,7 @@ calculate_threshold <- function(data, assay_sele, anno) {
 }
 
 # =========================================================
-# 第一次分类：基于效应方向
+# Calculate threshold
 # =========================================================
 classify_by_direction <- function(ddG_x, ddG_y, threshold_x, threshold_y) {
   sig_x <- abs(ddG_x) > threshold_x
@@ -122,7 +119,7 @@ classify_by_direction <- function(ddG_x, ddG_y, threshold_x, threshold_y) {
 }
 
 # =========================================================
-# 第二次分类：基于FDR重新评估所有类型
+# Second classification: Re-evaluation of all types based on FDR.
 # =========================================================
 reclassify_by_FDR <- function(direction_class, pass_FDR_x, pass_FDR_y) {
   result <- direction_class
@@ -160,7 +157,7 @@ reclassify_by_FDR <- function(direction_class, pass_FDR_x, pass_FDR_y) {
 }
 
 # =========================================================
-# 准备合并数据和计算双FDR
+#Preparing to merge data and calculate dual FDRs.
 # =========================================================
 prepare_merged_data_with_FDR <- function(input_x, input_y, assay_x, assay_y, anno) {
   data_x <- load_mutation_data(input_x, assay_x)
@@ -169,7 +166,7 @@ prepare_merged_data_with_FDR <- function(input_x, input_y, assay_x, assay_y, ann
   threshold_x <- calculate_threshold(data_x, assay_x, anno)
   threshold_y <- calculate_threshold(data_y, assay_y, anno)
   
-  # 移除binding interface位点
+  # Remove the binding interface site.
   if (!is.null(BINDING_SITES_MAP[[assay_x]])) {
     data_x <- data_x[!(Pos_real %in% BINDING_SITES_MAP[[assay_x]])]
   }
@@ -211,7 +208,7 @@ prepare_merged_data_with_FDR <- function(input_x, input_y, assay_x, assay_y, ann
 }
 
 # =========================================================
-# 打印突变列表的辅助函数
+# Helper function to print the list of mutations.
 # =========================================================
 print_mutation_list <- function(mutations, title) {
   cat("\n", title, "\n", sep="")
@@ -227,7 +224,7 @@ print_mutation_list <- function(mutations, title) {
 }
 
 # =========================================================
-# 通用分析函数（添加NBP标记）
+# General-purpose analysis function (with NBP markers added)
 # =========================================================
 analyze_protein_pair <- function(protein_x, protein_y,
                                  input_file_x, input_file_y,
@@ -241,26 +238,26 @@ analyze_protein_pair <- function(protein_x, protein_y,
   threshold_x <- prepared$threshold_x
   threshold_y <- prepared$threshold_y
   
-  # FDR显著性判断
+  # FDR significance determination
   merged_data[, pass_FDR_x := p_adj_x < 0.05]
   merged_data[, pass_FDR_y := p_adj_y < 0.05]
   
-  # 第一步：基于方向分类（只看阈值）
+  #Step 1: Classification based on direction (considering only the threshold)
   merged_data[, direction_class := classify_by_direction(
     get(paste0("ddG_", protein_x)), 
     get(paste0("ddG_", protein_y)), 
     threshold_x, threshold_y
   )]
   
-  # 第二步：基于FDR重新评估
+  # Step 2: Re-evaluation based on FDR
   merged_data[, final_classification := reclassify_by_FDR(
     direction_class, pass_FDR_x, pass_FDR_y
   )]
   
-  # 设置因子水平
+  #
   merged_data[, final_classification := factor(final_classification, levels = LEGEND_ORDER)]
   
-  # 标记是否为NBP位点（仅对anticorrelated突变）
+  #
   merged_data[, is_NBP := FALSE]
   merged_data[final_classification %in% c("Promoting in X / Disrupting in Y", 
                                           "Disrupting in X / Promoting in Y"), 
@@ -273,11 +270,11 @@ analyze_protein_pair <- function(protein_x, protein_y,
     cat(rep("=", 60), sep="", collapse="")
     cat("\n")
     
-    cat("\n阈值 (", protein_x, "): ", threshold_x, " kcal/mol", sep="")
-    cat("\n阈值 (", protein_y, "): ", threshold_y, " kcal/mol", sep="")
-    cat("\nFDR阈值: 0.05\n")
+    cat("\nThreshold (", protein_x, "): ", threshold_x, " kcal/mol", sep="")
+    cat("\nThreshold (", protein_y, "): ", threshold_y, " kcal/mol", sep="")
+    cat("\nFDR Threshold: 0.05\n")
     
-    # 提取各类突变
+    # Extract various types of mutations.
     both_promoting <- merged_data[final_classification == "Both promoting", mt]
     both_disrupting <- merged_data[final_classification == "Both disrupting", mt]
     promo_x_disrupt_y <- merged_data[final_classification == "Promoting in X / Disrupting in Y", mt]
@@ -285,7 +282,7 @@ analyze_protein_pair <- function(protein_x, protein_y,
     only_x <- merged_data[final_classification == "Allosteric only in X", mt]
     only_y <- merged_data[final_classification == "Allosteric only in Y", mt]
     
-    # 统计anticorrelated中NBP位点数量
+    # Count the number of NBP sites that are anticorrelated.
     anticorrelated_nbp <- merged_data[final_classification %in% c("Promoting in X / Disrupting in Y", 
                                                                   "Disrupting in X / Promoting in Y") & is_NBP == TRUE, .N]
     
@@ -297,22 +294,22 @@ analyze_protein_pair <- function(protein_x, protein_y,
     print_mutation_list(only_y, paste0("\n6. INDEPENDENT - Allosteric only in ", protein_y, ":"))
     
     cat("\n", rep("=", 60), sep="", collapse="")
-    cat("\n统计汇总:\n")
-    cat("  总突变数:", nrow(merged_data), "\n")
-    cat("  显著突变数:", sum(merged_data$final_classification != "Not significant (FDR >= 0.05)"), "\n")
-    cat("  Correlated (促进):", length(both_promoting), "\n")
-    cat("  Correlated (破坏):", length(both_disrupting), "\n")
-    cat("  Anticorrelated (", protein_x, "促进/", protein_y, "破坏):", length(promo_x_disrupt_y), "\n")
-    cat("  Anticorrelated (", protein_x, "破坏/", protein_y, "促进):", length(disrupt_x_promo_y), "\n")
-    cat("    - 其中NBP位点:", anticorrelated_nbp, "\n")
-    cat("  Independent (仅", protein_x, "):", length(only_x), "\n")
-    cat("  Independent (仅", protein_y, "):", length(only_y), "\n")
+    cat("\nStatistical Summary:\n")
+    cat("  Total number of mutations:", nrow(merged_data), "\n")
+    cat("  Number of significant mutations:", sum(merged_data$final_classification != "Not significant (FDR >= 0.05)"), "\n")
+    cat("  Correlated (increase):", length(both_promoting), "\n")
+    cat("  Correlated (inhibit):", length(both_disrupting), "\n")
+    cat("  Anticorrelated (", protein_x, "increase/", protein_y, "inhibit):", length(promo_x_disrupt_y), "\n")
+    cat("  Anticorrelated (", protein_x, "inhibit/", protein_y, "increase):", length(disrupt_x_promo_y), "\n")
+    cat("    - Among them, the NBP site:", anticorrelated_nbp, "\n")
+    cat("  Independent (only", protein_x, "):", length(only_x), "\n")
+    cat("  Independent (only", protein_y, "):", length(only_y), "\n")
     cat("  Not significant (FDR >= 0.05):", sum(merged_data$final_classification == "Not significant (FDR >= 0.05)"), "\n")
     cat(rep("=", 60), sep="", collapse="")
     cat("\n")
     
-    # 打印分类对比（调试用）
-    cat("\n分类对比（方向 vs 最终）:\n")
+    # Print classification comparison 
+    cat("\nComparative Classification (Direction vs. Outcome):\n")
     comparison <- merged_data[, .N, by = .(direction_class, final_classification)]
     print(comparison)
     
@@ -337,7 +334,7 @@ analyze_protein_pair <- function(protein_x, protein_y,
 }
 
 # =========================================================
-# 通用绘图函数（anticorrelated中NBP用三角形）
+# plot
 # =========================================================
 plot_protein_pair <- function(analysis_result, 
                               point_size = 2.5, 
@@ -352,7 +349,7 @@ plot_protein_pair <- function(analysis_result,
   threshold_x <- analysis_result$thresholds[1]
   threshold_y <- analysis_result$thresholds[2]
   
-  # 计算相关系数
+  #
   ddG_x_col <- paste0("ddG_", protein_x)
   ddG_y_col <- paste0("ddG_", protein_y)
   
@@ -364,55 +361,55 @@ plot_protein_pair <- function(analysis_result,
                       ifelse(p_value < 0.01, "**",
                              ifelse(p_value < 0.05, "*", "")))
   
-  # 创建绘图数据框
+  #
   merged_data$final_classification <- factor(merged_data$final_classification, 
                                              levels = LEGEND_ORDER)
   
-  # 分离anticorrelated中的NBP和非NBP
+  #
   anticorrelated_nbp <- merged_data[final_classification %in% c("Promoting in X / Disrupting in Y", 
                                                                 "Disrupting in X / Promoting in Y") & is_NBP == TRUE]
   anticorrelated_non_nbp <- merged_data[final_classification %in% c("Promoting in X / Disrupting in Y", 
                                                                     "Disrupting in X / Promoting in Y") & is_NBP == FALSE]
   
-  # 其他显著突变（Both promoting, Both disrupting, Allosteric only）
+  #
   other_significant <- merged_data[final_classification %in% c("Both promoting", "Both disrupting",
                                                                "Allosteric only in X", "Allosteric only in Y")]
   
-  # 非显著突变
+  #
   not_significant <- merged_data[final_classification == "Not significant (FDR >= 0.05)"]
   
   p <- ggplot() +
     theme_classic(base_size = base_size) +
     
-    # 阈值线
+    # 
     geom_vline(xintercept = c(-threshold_x, threshold_x),
                linetype = "dashed", color = "grey50", linewidth = 0.5) +
     geom_hline(yintercept = c(-threshold_y, threshold_y),
                linetype = "dashed", color = "grey50", linewidth = 0.5) +
     
-    # 非显著突变（灰色，较低透明度）- 与参考代码一致
+    #
     geom_point(data = not_significant,
                aes_string(x = ddG_x_col, y = ddG_y_col, color = "final_classification"),
                size = point_size, alpha = alpha * 0.3, stroke = 0.3) +
     
-    # 其他显著突变（正常透明度）- 与参考代码一致
+    #
     geom_point(data = other_significant,
                aes_string(x = ddG_x_col, y = ddG_y_col, color = "final_classification"),
                size = point_size, alpha = alpha, stroke = 0.3) +
     
-    # Anticorrelated 非NBP位点（正常透明度，圆形）
+    #
     geom_point(data = anticorrelated_non_nbp,
                aes_string(x = ddG_x_col, y = ddG_y_col, color = "final_classification"),
                size = point_size, alpha = alpha, shape = 16, stroke = 0.3) +
     
-    # Anticorrelated NBP位点（正常透明度，三角形）
+    #
     geom_point(data = anticorrelated_nbp,
                aes_string(x = ddG_x_col, y = ddG_y_col, color = "final_classification"),
                size = point_size + 0.5, alpha = alpha, shape = 17, stroke = 0.3) +
     
     scale_color_manual(values = COLOR_MAP, breaks = LEGEND_ORDER, drop = FALSE) +
     
-    # 添加相关系数文本
+    #
     annotate("text", x = -Inf, y = Inf, 
              label = paste0("R = ", r_value, sig_label),
              hjust = -0.2, vjust = 1.5, size = base_size/3) +
@@ -444,21 +441,17 @@ plot_protein_pair <- function(analysis_result,
 }
 
 # =========================================================
-# 使用示例
-# =========================================================
 
-# 设置文件路径
+# 
 base_dir <- "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/"
 anno_file <- "C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_8.csv"
 output_dir <- "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/result4_figure5_2/"
 
-# 确保输出目录存在
+#
 if(!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
 }
 
-# =========================================================
-# 分析 RAF1 vs K13
 # =========================================================
 cat("\n========== Analyzing RAF1 vs K13 ==========\n")
 analysis_RAF1_K13 <- analyze_protein_pair(
@@ -484,8 +477,6 @@ ggsave(file.path(output_dir, "RAF1_vs_K13_scatter_plot_NBP_triangle.pdf"),
        device = cairo_pdf)
 
 # =========================================================
-# 分析 RAF1 vs K55
-# =========================================================
 cat("\n========== Analyzing RAF1 vs K55 ==========\n")
 analysis_RAF1_K55 <- analyze_protein_pair(
   protein_x = "RAF1",
@@ -509,8 +500,6 @@ ggsave(file.path(output_dir, "RAF1_vs_K55_scatter_plot_NBP_triangle.pdf"),
        height = 6,
        device = cairo_pdf)
 
-# =========================================================
-# 分析 RAF1 vs K27
 # =========================================================
 cat("\n========== Analyzing RAF1 vs K27 ==========\n")
 analysis_RAF1_K27 <- analyze_protein_pair(
@@ -536,8 +525,6 @@ ggsave(file.path(output_dir, "RAF1_vs_K27_scatter_plot_NBP_triangle.pdf"),
        device = cairo_pdf)
 
 # =========================================================
-# 分析 K27 vs K13
-# =========================================================
 cat("\n========== Analyzing K27 vs K13 ==========\n")
 analysis_K27_K13 <- analyze_protein_pair(
   protein_x = "K27",
@@ -561,8 +548,6 @@ ggsave(file.path(output_dir, "K27_vs_K13_scatter_plot_NBP_triangle.pdf"),
        height = 6,
        device = cairo_pdf)
 
-# =========================================================
-# 分析 K13 vs K19
 # =========================================================
 cat("\n========== Analyzing K13 vs K19 ==========\n")
 analysis_K13_K19 <- analyze_protein_pair(
