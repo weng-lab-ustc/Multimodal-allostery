@@ -128,7 +128,7 @@ K13_19_get_ob_pre_fitness_binding_correlation_3blocks <- function(
 ######################################
 
 ####################################
-# 绘图函数保持不变
+# 
 krasddpcams__plot2d_ddGb_ob_pre_fitness_perblock <- function(pre_nor = pre_nor, phenotypen = phenotypen, rotate_x_axis = TRUE) 
 {
   pre_nor
