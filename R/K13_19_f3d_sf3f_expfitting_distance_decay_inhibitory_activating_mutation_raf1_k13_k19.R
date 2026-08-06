@@ -5,7 +5,7 @@ library(grid)
 library(krasddpcams)
 
 # ============================================
-# Main plotting function (NO p-value calculation, NO filtering)
+# Main plotting function 
 # ============================================
 plot_energy_distance_decay_directional_noFilter <- function(
     input,
@@ -30,7 +30,7 @@ plot_energy_distance_decay_directional_noFilter <- function(
   x_col <- paste0("scHAmin_ligand_", assay_sele)
   
   # ============================================
-  # 2. Define directional groups by ΔΔG sign (NO p-value calculation)
+  # 2. Define directional groups by ΔΔG sign 
   # ============================================
   
   # inhibit binding: ΔΔG > 0 (use ALL mutations, use absolute value)
@@ -244,7 +244,7 @@ plot_energy_distance_decay_directional_noFilter <- function(
 }
 
 # ============================================
-# Run RAF1 (NO filtering)
+# Run RAF1 
 # ============================================
 plot_raf1 <- plot_energy_distance_decay_directional_noFilter(
   input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt",
@@ -265,7 +265,7 @@ ggsave(
 )
 
 # ============================================
-# Run K13 (NO filtering)
+# Run K13 
 # ============================================
 plot_K13 <- plot_energy_distance_decay_directional_noFilter(
   input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt",
@@ -286,7 +286,7 @@ ggsave(
 )
 
 # ============================================
-# Run K19 (NO filtering)
+# Run K19 
 # ============================================
 plot_K19 <- plot_energy_distance_decay_directional_noFilter(
   input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K19.txt",
