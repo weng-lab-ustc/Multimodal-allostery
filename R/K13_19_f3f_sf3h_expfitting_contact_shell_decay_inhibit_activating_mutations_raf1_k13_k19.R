@@ -8,7 +8,7 @@ plot_energy_distance_decay_expfit_directional_noFDR <- function(
     assay_sele,
     contact_shell,
     x_range = c(0, 10),
-    y_range = c(-1.5, 3)  # 修改y轴范围以包含负值
+    y_range = c(-1.5, 3)  
 ) {
   
   # ===============================
@@ -38,7 +38,7 @@ plot_energy_distance_decay_expfit_directional_noFDR <- function(
     get(mean_col) > 0,
     .(
       x = get(x_col),
-      y = abs(get(mean_col))  # 正值，取绝对值
+      y = abs(get(mean_col))  
     )
   ]
   
@@ -47,7 +47,7 @@ plot_energy_distance_decay_expfit_directional_noFDR <- function(
     get(mean_col) < 0,
     .(
       x = get(x_col),
-      y = get(mean_col)  # 保留原始负值
+      y = get(mean_col)  
     )
   ]
   
@@ -177,7 +177,7 @@ plot_energy_distance_decay_expfit_directional_noFDR <- function(
     
     labs(
       x = paste0("Contact shell distance to ", assay_sele, " (Å)"),
-      y = paste0("Binding ΔΔG (", assay_sele, ") (kcal/mol)")  # 改回 ΔΔG 而不是 |ΔΔG|
+      y = paste0("Binding ΔΔG (", assay_sele, ") (kcal/mol)")  
     ) +
     
     theme(
@@ -219,13 +219,13 @@ plot_energy_distance_decay_expfit_directional_noFDR <- function(
 contact_shell <- fread("C:/Users/36146/OneDrive - USTC/DryLab/Data_analysis_scripts/distance_contacts_analysis/5binder_contact_shell2.csv")
 
 # ===============================
-# Run RAF1 (NO FDR correction)
+# Run RAF1
 # ===============================
 plot_raf1 <- plot_energy_distance_decay_expfit_directional_noFDR(
   input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt",
   assay_sele = "RAF1",
   contact_shell = contact_shell,
-  y_range = c(-1.5, 3)  # 可根据数据调整范围
+  y_range = c(-1.5, 3)  
 )
 
 print(plot_raf1)
@@ -234,7 +234,7 @@ ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_star
        plot_raf1, device = cairo_pdf, height = 2.5, width = 2.5)
 
 # ===============================
-# Run K13 (NO FDR correction)
+# Run K13
 # ===============================
 plot_k13 <- plot_energy_distance_decay_expfit_directional_noFDR(
   input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt",
@@ -249,7 +249,7 @@ ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_star
        plot_k13, device = cairo_pdf, height = 2.5, width = 2.5)
 
 # ===============================
-# Run K19 (NO FDR correction)
+# Run K19
 # ===============================
 plot_k19 <- plot_energy_distance_decay_expfit_directional_noFDR(
   input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K19.txt",
