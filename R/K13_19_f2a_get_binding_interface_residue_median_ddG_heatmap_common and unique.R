@@ -62,7 +62,7 @@ plot_binding_interface_residue_median_ddG_heatmap <- function(
 
 #ddG_file <- "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt"
 ddG_file <- "~/Library/CloudStorage/OneDrive-个人/文档/Data/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt"
-# 定义binding界面位置及对应标签
+# Define the binding interface location and the corresponding label.
 binding_interface_residues <- c(63, 105, 106, 98, 107, 101, 102, 99, 136, 95, 137, 94, 133, 90, 129, 87, 91, 88)
 
 position_labels <- c(
@@ -115,37 +115,5 @@ p <- plot_binding_interface_residue_median_ddG_heatmap(
 print(p)
 
 ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/result2_figure2/K19_BI_residues_median_ddG_heatmap.pdf", p , device = cairo_pdf,height = 7,width=3)
-
-
-
-
-
-
-
-############################
-######RAF1
-
-ddG_file <- "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt"
-
-# 定义binding界面位置及对应标签
-binding_interface_residues <- c(21, 25, 31, 33, 36, 37, 38, 39, 40, 41, 67, 71)
-
-position_labels <- c(
-  "21" = "T21", "25" = "I25", "31" = "Q31", "33" = "N33",
-  "36" = "F36", "37" = "V37", "38" = "D38", "39" = "E39",
-  "40" = "Y40", "41" = "D41", "67" = "R67", "71" = "K71"
-)
-
-p <- plot_binding_interface_residue_median_ddG_heatmap(
-  ddG_file = ddG_file,
-  binding_sites = binding_interface_residues,
-  position_labels = position_labels,
-  title = "RAF1 Binding Interface Residues - Median ΔΔGb"
-)
-
-
-print(p)
-
-ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260110_version/figure 2/K13_BI_residues_median_ddG_heatmap.pdf", p , device = cairo_pdf,height = 6,width=3)
 
 
