@@ -216,13 +216,13 @@ process_single_assay <- function(input, assay_sele, anno, contact_shell_file = N
   
   cat("\n", paste0(rep("=", 80), collapse = ""), "\n")
   cat("ENRICHMENT ANALYSIS FOR", toupper(assay_sele), "\n")
-  cat("使用 RAF1 定义的 GTP binding site\n")
-  cat("排除界面位点 (Binding interface site)\n")
+  cat("Using the GTP-binding site defined by RAF1\n")
+  cat("Exclude binding interface sites\n")
   cat(paste0(rep("=", 80), collapse = ""), "\n")
   
-  cat("\n总突变数（非界面）:", nrow(mutations_analysis))
-  cat("\n变构突变数:", nrow(mutations_analysis[is_allosteric == TRUE]))
-  cat("\n非变构突变数:", nrow(mutations_analysis[is_allosteric == FALSE]), "\n")
+  cat("\nTotal number of mutations (non-interface):", nrow(mutations_analysis))
+  cat("\nNumber of allosteric mutations:", nrow(mutations_analysis[is_allosteric == TRUE]))
+  cat("\nNumber of non-allosteric mutations:", nrow(mutations_analysis[is_allosteric == FALSE]), "\n")
   
   # ============================================
   # 1. Enrichment in NBP (nucleotide-binding pocket)
@@ -235,10 +235,10 @@ process_single_assay <- function(input, assay_sele, anno, contact_shell_file = N
   cat("   Region: NBP (GTP binding interface site positions)\n")
   cat("   Background: All non-interface positions (excluding NBP)\n\n")
   
-  # 标记是否在NBP区域
+  # Mark whether it is in the NBP region.
   mutations_analysis[, in_NBP := Pos %in% NBP_positions]
   
-  # 统计
+  # statistics
   case_in_NBP <- nrow(mutations_analysis[is_allosteric == TRUE & in_NBP == TRUE])
   control_in_NBP <- nrow(mutations_analysis[is_allosteric == FALSE & in_NBP == TRUE])
   case_out_NBP <- nrow(mutations_analysis[is_allosteric == TRUE & in_NBP == FALSE])
@@ -326,7 +326,7 @@ process_single_assay <- function(input, assay_sele, anno, contact_shell_file = N
       cat("   Region: Second shell positions\n")
       cat("Background: All non-interface positions excluding second shell\n\n")
       
-      # 标记是否在second shell区域
+      # Indicate whether it is in the second shell region.
       mutations_analysis[, in_second_shell := Pos %in% second_shell_positions]
       
       # 2.1 Combined
@@ -420,7 +420,7 @@ process_single_assay <- function(input, assay_sele, anno, contact_shell_file = N
   cat("   Region: Beta sheets\n")
   cat("   Background: All non-interface positions excluding beta sheets\n\n")
   
-  # 标记是否在beta sheet区域
+  # Indicate whether it is in the second shell region.
   mutations_analysis[, in_beta_sheet := Pos %in% beta_sheets]
   
   # 3.1 Combined
