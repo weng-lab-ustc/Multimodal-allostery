@@ -14,41 +14,41 @@ library(usethis)
 # ===============================
 print_allosteric_statistics <- function(data_plot, allosteric_list, assays, reg_threshold) {
   cat("\n", rep("=", 80), "\n", sep = "")
-  cat("变构位点统计报告\n")
+  cat("Statistical Report on Allosteric Sites\n")
   cat(rep("=", 80), "\n\n", sep = "")
   
-  # 总体统计
-  cat("【总体统计】\n")
-  cat(sprintf("回归阈值 (reg_threshold): %.3f kcal/mol\n\n", reg_threshold))
+  # Overall Statistics
+  cat("【Overall Statistics】\n")
+  cat(sprintf("threshold (reg_threshold): %.3f kcal/mol\n\n", reg_threshold))
   
-  # 按assay统计
+  # Categorized by assay
   for (assayi in assays) {
     cat(sprintf("【Assay: %s】\n", assayi))
     cat(rep("-", 40), "\n", sep = "")
     
-    # 获取当前assay的数据
+    # Retrieve data for the current assay.
     data_current <- data_plot[assay == assayi, ]
     
-    # 统计各类型位点数量
+    #Count the number of sites of each type.
     binding_sites <- allosteric_list[[assayi]][["Binding interface site"]]
     allosteric_gtp_sites <- allosteric_list[[assayi]][["Allosteric GTP pocket site"]]
     other_gtp_sites <- allosteric_list[[assayi]][["Other GTP pocket site"]]
     major_allosteric_sites <- allosteric_list[[assayi]][["Major allosteric site"]]
     
-    # 打印数量统计
+    # Print Quantity Statistics
     cat("\n位点数量统计：\n")
     cat(sprintf("  • Binding interface sites (结合界面位点): %d\n", length(binding_sites)))
     cat(sprintf("  • Allosteric GTP pocket sites (变构GTP口袋位点): %d\n", length(allosteric_gtp_sites)))
     cat(sprintf("  • Other GTP pocket sites (其他GTP口袋位点): %d\n", length(other_gtp_sites)))
     cat(sprintf("  • Major allosteric sites (主要变构位点): %d\n", length(major_allosteric_sites)))
     
-    # 打印具体的残基位置
+    # Print the specific residue positions.
     if (length(allosteric_gtp_sites) > 0) {
-      cat("\n变构GTP口袋位点具体残基：\n")
-      cat(sprintf("  残基位置: %s\n", paste(sort(allosteric_gtp_sites), collapse = ", ")))
+      cat("\nSpecific residues of the allosteric GTP-binding pocket：\n")
+      cat(sprintf("  Residue position: %s\n", paste(sort(allosteric_gtp_sites), collapse = ", ")))
       
-      # 打印这些位点的详细信息
-      cat("\n  详细信息 (mean ddG, distance, count):\n")
+      # Print the details of these sites.
+      cat("\n  Detailed Information (mean ddG, distance, count):\n")
       for (pos in sort(allosteric_gtp_sites)) {
         pos_data <- data_current[Pos_real == pos, ]
         if (nrow(pos_data) > 0) {
@@ -59,11 +59,11 @@ print_allosteric_statistics <- function(data_plot, allosteric_list, assays, reg_
     }
     
     if (length(major_allosteric_sites) > 0) {
-      cat("\n主要变构位点具体残基：\n")
-      cat(sprintf("  残基位置: %s\n", paste(sort(major_allosteric_sites), collapse = ", ")))
+      cat("\nSpecific residues at the primary allosteric site：\n")
+      cat(sprintf("  Residue position: %s\n", paste(sort(major_allosteric_sites), collapse = ", ")))
       
-      # 打印这些位点的详细信息
-      cat("\n  详细信息 (mean ddG, distance, count):\n")
+      # Print the details of these sites.
+      cat("\n  Detailed Information (mean ddG, distance, count):\n")
       for (pos in sort(major_allosteric_sites)) {
         pos_data <- data_current[Pos_real == pos, ]
         if (nrow(pos_data) > 0) {
@@ -74,61 +74,61 @@ print_allosteric_statistics <- function(data_plot, allosteric_list, assays, reg_
     }
     
     if (length(binding_sites) > 0) {
-      cat("\n结合界面位点具体残基：\n")
-      cat(sprintf("  残基位置: %s\n", paste(sort(binding_sites), collapse = ", ")))
+      cat("\nCombined with specific residues at the interface site：\n")
+      cat(sprintf("  Residue position: %s\n", paste(sort(binding_sites), collapse = ", ")))
     }
     
     if (length(other_gtp_sites) > 0) {
-      cat("\n其他GTP口袋位点具体残基：\n")
-      cat(sprintf("  残基位置: %s\n", paste(sort(other_gtp_sites), collapse = ", ")))
+      cat("\nOther GTP pocket sites and specific residues：\n")
+      cat(sprintf("  Residue position: %s\n", paste(sort(other_gtp_sites), collapse = ", ")))
     }
     
     cat("\n")
   }
   
-  # 跨assay比较
+  # Cross-assay comparison
   cat(rep("=", 80), "\n", sep = "")
   cat("【跨Assay比较】\n")
   cat(rep("-", 40), "\n", sep = "")
   
-  # 找出所有assay中共同的和特有的变构位点
+  # Identify the allosteric sites that are common to and unique among all the assays.
   all_allosteric_sites <- list()
   for (assayi in assays) {
     all_allosteric_sites[[assayi]] <- allosteric_list[[assayi]][["Allosteric GTP pocket site"]]
   }
   
-  # 交集
+  # Intersection
   common_sites <- Reduce(intersect, all_allosteric_sites)
   if (length(common_sites) > 0) {
-    cat("\n所有assay共有的变构GTP口袋位点：\n")
-    cat(sprintf("  残基位置: %s\n", paste(sort(common_sites), collapse = ", ")))
+    cat("\nAllosteric GTP pocket site shared by all assays：\n")
+    cat(sprintf("  Residue position: %s\n", paste(sort(common_sites), collapse = ", ")))
   } else {
-    cat("\n所有assay共有的变构GTP口袋位点：无\n")
+    cat("\nCommon allosteric GTP pocket sites across all assignments: None\n")
   }
   
-  # 并集
+  # Union
   all_sites <- unique(unlist(all_allosteric_sites))
-  cat(sprintf("\n所有assay中出现的变构GTP口袋位点总数: %d\n", length(all_sites)))
+  cat(sprintf("\nTotal number of allosteric GTP pocket sites identified across all assays.: %d\n", length(all_sites)))
   if (length(all_sites) > 0) {
-    cat(sprintf("  完整列表: %s\n", paste(sort(all_sites), collapse = ", ")))
+    cat(sprintf("  Full list: %s\n", paste(sort(all_sites), collapse = ", ")))
   }
   
-  # 每个assay特有的位点
+  # Assay-specific sites
   for (i in seq_along(assays)) {
     assayi <- assays[i]
     other_assays <- assays[-i]
     unique_sites <- setdiff(all_allosteric_sites[[assayi]], 
                             unlist(all_allosteric_sites[other_assays]))
     if (length(unique_sites) > 0) {
-      cat(sprintf("\n%s特有的变构GTP口袋位点：\n", assayi))
-      cat(sprintf("  残基位置: %s\n", paste(sort(unique_sites), collapse = ", ")))
+      cat(sprintf("\n%sUnique allosteric GTP pocket site：\n", assayi))
+      cat(sprintf("  Residue position: %s\n", paste(sort(unique_sites), collapse = ", ")))
     } else {
-      cat(sprintf("\n%s特有的变构GTP口袋位点：无\n", assayi))
+      cat(sprintf("\n%sUnique allosteric GTP pocket sites: None\n", assayi))
     }
   }
   
   cat("\n", rep("=", 80), "\n", sep = "")
-  cat("统计报告结束\n")
+  cat("Statistical report concluded.\n")
   cat(rep("=", 80), "\n\n", sep = "")
 }
 
@@ -380,15 +380,15 @@ plot_weighted_mean_ddG_distance_with_cross <- function(ddG_files, assays, anno_f
   
   # Print cross-hotspot information
   cat("\n", rep("=", 80), "\n", sep = "")
-  cat("【交叉热点标注信息（来自其他蛋白，且非自身变构热点）】\n")
+  cat("【Cross-referenced hotspot annotation information (derived from other proteins and not constituting an allosteric hotspot of the protein itself)】\n")
   cat(rep("-", 40), "\n", sep = "")
   
   for (current_protein in protein_names) {
     cross_data <- data_plot[assay == current_protein & !is.na(cross_hotspot_source), ]
     if(nrow(cross_data) > 0) {
-      cat(sprintf("\n在%s中标注的其他蛋白热点（非自身变构热点）:\n", current_protein))
+      cat(sprintf("\nOther protein hotspots (non-autosteric hotspots) marked in %s:\n", current_protein))
       for(i in 1:nrow(cross_data)) {
-        cat(sprintf("  残基 %d (来自%s): mean ddG = %.3f, distance = %.2f Å, 点颜色 = %s\n",
+        cat(sprintf("  Residue %d (from %s): mean ddG = %.3f, distance = %.2f Å, point color = %s\n",
                     cross_data$Pos_real[i], 
                     cross_data$cross_hotspot_source[i],
                     cross_data$mean[i],
@@ -396,7 +396,7 @@ plot_weighted_mean_ddG_distance_with_cross <- function(ddG_files, assays, anno_f
                     cross_data$cross_hotspot_source[i]))
       }
     } else {
-      cat(sprintf("\n在%s中没有需要额外标注的其他蛋白热点\n", current_protein))
+      cat(sprintf("\nThere are no other protein hotspots requiring additional annotation in %s.\n", current_protein))
     }
   }
   cat(rep("=", 80), "\n\n", sep = "")
@@ -555,7 +555,7 @@ print(result$plot)
 print(paste("Threshold value:", result$threshold))
 
 # View cross-hotspot data (only non-self hotspots)
-cat("\n\n额外标注的交叉热点（来自其他蛋白，非自身变构热点）:\n")
+cat("\n\nAdditionally annotated cross-hotspots (derived from other proteins, rather than intrinsic allosteric hotspots):\n")
 print(result$cross_hotspots[, .(assay, Pos_real, cross_hotspot_source, mean, distance_bp, site_type)])
 
 # Optional: Save cross-hotspot data to CSV
