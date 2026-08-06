@@ -5,7 +5,7 @@ anno <- fread("C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K1
 
 rects_sheet <- data.frame(xstart = c(3,38,51,77,109,139),
                           xend = c(9,44,57,84,115,143),
-                          col = c("b1","b2","b3","b4","b5","b6"))  # 改为英文字母b
+                          col = c("b1","b2","b3","b4","b5","b6"))  
 
 #rects<-data.frame(xstart=c(2,37,49,77,111,141),
 #                  xend=c(10,46,58,83,116,143), 
@@ -52,7 +52,7 @@ ggplot2::ggplot(data_plot_mutation_beta,
   ggplot2::theme_classic() + 
   ggplot2::theme(text = ggplot2::element_text(size = 10), 
                  axis.text = ggplot2::element_text(size = 10), 
-                 axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5),  # 添加这一行
+                 axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5),  
                  legend.text = ggplot2::element_text(size = 10))
 
 
@@ -102,7 +102,7 @@ ggplot2::ggplot(data_plot_mutation_beta,
   ggplot2::theme_classic() + 
   ggplot2::theme(text = ggplot2::element_text(size = 10), 
                  axis.text = ggplot2::element_text(size = 10), 
-                 axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5),  # 添加这一行
+                 axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5),  
                  legend.text = ggplot2::element_text(size = 10))
 
 
