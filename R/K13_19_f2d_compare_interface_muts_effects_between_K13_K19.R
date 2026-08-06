@@ -28,7 +28,7 @@ cor_test <- cor.test(ddG_dc$K13, ddG_dc$K19, use = "complete.obs")
 correlation_coefficient <- cor_test$estimate
 p_value <- cor_test$p.value
 
-# 输出R和p值
+# Output R and p-values.
 cat("=== Correlation Statistics ===\n")
 cat("Pearson r =", round(correlation_coefficient, 4), "\n")
 cat("p-value =", format(p_value, scientific = TRUE, digits = 4), "\n")
