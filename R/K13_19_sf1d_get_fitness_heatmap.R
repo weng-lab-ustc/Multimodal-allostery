@@ -5,26 +5,19 @@ library(wlab.block)
 library(data.table)
 library(ggplot2)
 
-#' Create fitness heatmap for single amino acid mutations
-#'
-#' @param input Normalized fitness data for single mutations
-#' @param wt_aa Wild-type amino acid sequence
-#' @param title Plot title
-#' @param legend_limits Limits for color legend
-#' @return ggplot object showing fitness heatmap
-
+##############
 nor_fitness_5blocks <- function(required_file) {
-  if(length(required_file) != 5) stop("必须提供 5 个文件路径")
+  if(length(required_file) != 5) stop("Five file paths need to be provided.")
   
   all_data <- list()
   gr_lm <- data.frame(matrix(nrow = 2, ncol = 0))
   fit_lm <- data.frame(matrix(nrow = 2, ncol = 0))
   
-  # 遍历 5 个 block
+  # Iterate through 5 blocks.
   for (i in 1:5) {
     load(required_file[i])
     
-    # 加权平均 growthrate
+    # Weighted average growth rate
     all_variants$gr_over_sigmasquared <- all_variants$growthrate / (all_variants$growthrate_sigma)^2
     all_variants$one_over_sigmasquared <- 1 / (all_variants$growthrate_sigma)^2
     stop1 <- sum(all_variants[STOP == TRUE, ]$gr_over_sigmasquared, na.rm = TRUE) / 
@@ -34,7 +27,7 @@ nor_fitness_5blocks <- function(required_file) {
     gr_lm <- dplyr::bind_cols(gr_lm, c(stop = stop1, wt = wt1))
     colnames(gr_lm)[i] <- paste0("block", i)
     
-    # 加权平均 fitness
+    # weighted average fitness
     all_variants$fitness_over_sigmasquared <- all_variants$fitness / (all_variants$sigma)^2
     all_variants$one_over_fitness_sigmasquared <- 1 / (all_variants$sigma)^2
     stop1_fitness <- sum(all_variants[STOP == TRUE, ]$fitness_over_sigmasquared, na.rm = TRUE) / 
@@ -47,13 +40,13 @@ nor_fitness_5blocks <- function(required_file) {
     all_data[[i]] <- all_variants
   }
   
-  # 给第一个 block 添加 nor 列
+  # Add a 'nor' column to the first block.
   all_data[[1]][, `:=`(nor_gr, growthrate)]
   all_data[[1]][, `:=`(nor_gr_sigma, growthrate_sigma)]
   all_data[[1]][, `:=`(nor_fitness, fitness)]
   all_data[[1]][, `:=`(nor_fitness_sigma, sigma)]
   
-  # 对后续 block 做归一化
+  # Apply normalization to the subsequent block.
   for (i in 2:5) {
     # growthrate
     formula1 <- as.formula(paste0("block1 ~ block", i))
@@ -73,7 +66,7 @@ nor_fitness_5blocks <- function(required_file) {
     all_data[[i]][, `:=`(nor_fitness_sigma, sigma * d2)]
   }
   
-  # 合并所有 block
+  # Merge all blocks
   data_after_nor <- dplyr::bind_rows(all_data, .id = "block")
   return(data_after_nor)
 }
@@ -81,29 +74,29 @@ nor_fitness_5blocks <- function(required_file) {
 
 
 fitness_heatmap <- function(input, wt_aa, title = "fitness", legend_limits = c(-1.5, 1)) {
-  # 定义氨基酸顺序
+  # Define the amino acid sequence.
   aa_list <- as.list(unlist(strsplit("GAVLMIFYWKRHDESTCNQP", "")))
   num <- nchar(wt_aa) + 1
   
-  # 准备单点突变数据
+  # Prepare single-point mutation data.
   input_single <- input
   input_single[, position := AA_Pos1]
   input_single[, WT_AA := wtcodon1]
   
-  # 构建热图模板
+  # Build a heatmap template
   heatmap_tool_fitness <- data.table(
     wtcodon1 = rep(unlist(strsplit(wt_aa, "")), each = 21),
     position = rep(2:num, each = 21),
     codon1 = c(unlist(aa_list), "*")
   )
   
-  # 合并实验数据
+  # Merge experimental data
   heatmap_tool_fitness_anno_single <- merge(
     input_single, heatmap_tool_fitness,
     by = c("wtcodon1", "position", "codon1"), all = TRUE
   )
   
-  # 设置氨基酸顺序
+  # Set the amino acid sequence
   heatmap_tool_fitness_anno_single <- within(
     heatmap_tool_fitness_anno_single,
     codon1 <- factor(codon1, levels = c(
@@ -115,7 +108,7 @@ fitness_heatmap <- function(input, wt_aa, title = "fitness", legend_limits = c(-
   # WT fitness = 0
   heatmap_tool_fitness_anno_single[wtcodon1 == codon1, nor_fitness_nooverlap := 0]
   
-  # 绘图
+  # plot
   ggplot() +
     theme_classic() +
     geom_tile(
@@ -174,7 +167,7 @@ fitness_heatmap <- function(input, wt_aa, title = "fitness", legend_limits = c(-
 }
 
 #--------------------
-#调用函数
+#Call a function
 #--------------------
 
 wt_aa<-"TEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHHYREQIKRVKDSEDVPMVLVGNKCDLPSRTVDTKQAQDLARSYGIPFIETSAKTRQGVDDAFYTLVREIRKHKEKMSKDGKKKKKKSKTKCVIM"
