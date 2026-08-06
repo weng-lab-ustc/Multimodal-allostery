@@ -3,7 +3,7 @@ library(ggplot2)
 library(dplyr)
 
 # =========================================================
-# pair顺序（X轴）
+# pair sequence（X axis）
 # =========================================================
 PAIR_ORDER <- c(
   "RAF1 vs K55",
@@ -18,7 +18,7 @@ PAIR_ORDER <- c(
   "K13 vs K19"
 )
 
-# binding interface 位点映射
+# binding interface residuea
 binding_sites_map <- list(
   RAF1 = c(21, 25, 29, 31, 33, 36, 37, 38, 39, 40, 41, 67, 71),
   K55 = c(5, 24, 25, 31, 33, 36, 37, 38, 39, 40, 54, 56, 64, 66, 67, 70, 73, 74),
@@ -30,7 +30,7 @@ binding_sites_map <- list(
 
 
 # =========================================================
-# 数据读取函数
+# function for reading data
 # =========================================================
 load_mutation_data <- function(input, assay_sele) {
   if (is.character(input)) {
@@ -55,7 +55,7 @@ load_mutation_data <- function(input, assay_sele) {
 }
 
 # =========================================================
-# 第一次分类：基于效应方向（仅看阈值，不看FDR）
+# First classification: Based on the direction of the effect (considering only the threshold, not the FDR).
 # =========================================================
 classify_by_direction <- function(ddG_x, ddG_y, threshold_x, threshold_y) {
   sig_x <- abs(ddG_x) > threshold_x
@@ -68,36 +68,36 @@ classify_by_direction <- function(ddG_x, ddG_y, threshold_x, threshold_y) {
   
   result <- rep("neutral", length(ddG_x))
   
-  # Correlated/Anticorrelated 类型（双显著）
+  # Correlated/Anticorrelated type (doubly significant)
   result[sig_x & sig_y & promote_x & promote_y] <- "Both promoting"
   result[sig_x & sig_y & disrupt_x & disrupt_y] <- "Both disrupting"
   result[sig_x & sig_y & promote_x & disrupt_y] <- "Promoting in X / Disrupting in Y"
   result[sig_x & sig_y & disrupt_x & promote_y] <- "Disrupting in X / Promoting in Y"
   
-  # Allosteric only 类型（单显著）
+  # "Allosteric-only" type (singly significant)
   result[sig_x & !sig_y] <- "Allosteric only in X"
   result[!sig_x & sig_y] <- "Allosteric only in Y"
   
-  # 完全不显著
+  # Not at all significant
   result[!sig_x & !sig_y] <- "Not significant (FDR >= 0.05)"
   
   return(result)
 }
 
 # =========================================================
-# 第二次分类：基于FDR重新评估所有类型
+# Second classification: Re-evaluation of all types based on FDR
 # =========================================================
 reclassify_by_FDR <- function(direction_class, pass_FDR_x, pass_FDR_y) {
   result <- direction_class
   
   for (i in 1:length(direction_class)) {
     
-    # 处理 Correlated/Anticorrelated 类型（需要双FDR显著）
+    # Handling correlated/anticorrelated types (requires dual-FDR significance)
     if (direction_class[i] %in% c("Both promoting", "Both disrupting", 
                                   "Promoting in X / Disrupting in Y", 
                                   "Disrupting in X / Promoting in Y")) {
       if (!(pass_FDR_x[i] & pass_FDR_y[i])) {
-        # 降级：检查是否满足单FDR
+        # Downgrade: Check if the single FDR criterion is met.
         if (pass_FDR_x[i] & !pass_FDR_y[i]) {
           result[i] <- "Allosteric only in X"
         } else if (!pass_FDR_x[i] & pass_FDR_y[i]) {
@@ -108,14 +108,14 @@ reclassify_by_FDR <- function(direction_class, pass_FDR_x, pass_FDR_y) {
       }
     }
     
-    # 处理 Allosteric only in X 类型（需要单FDR显著在X）
+    # Handle the "Allosteric only in X" type (requires significant FDR in X).
     else if (direction_class[i] == "Allosteric only in X") {
       if (!pass_FDR_x[i]) {
         result[i] <- "Not significant (FDR >= 0.05)"
       }
     }
     
-    # 处理 Allosteric only in Y 类型（需要单FDR显著在Y）
+    # Handle "Allosteric-only in Y" types (requires significant FDR in Y).
     else if (direction_class[i] == "Allosteric only in Y") {
       if (!pass_FDR_y[i]) {
         result[i] <- "Not significant (FDR >= 0.05)"
@@ -127,7 +127,7 @@ reclassify_by_FDR <- function(direction_class, pass_FDR_x, pass_FDR_y) {
 }
 
 # =========================================================
-# 计算阈值
+# Calculate threshold
 # =========================================================
 calculate_threshold <- function(data, assay_sele, anno) {
   anno_data <- fread(anno)
@@ -153,7 +153,7 @@ calculate_threshold <- function(data, assay_sele, anno) {
 }
 
 # =========================================================
-# 公共函数：准备合并数据和计算FDR
+# function: Prepare to merge data and calculate FDR.
 # =========================================================
 prepare_merged_data_with_FDR <- function(input_x, input_y, assay_x, assay_y, anno) {
   data_x <- load_mutation_data(input_x, assay_x)
@@ -203,30 +203,30 @@ prepare_merged_data_with_FDR <- function(input_x, input_y, assay_x, assay_y, ann
 }
 
 # =========================================================
-# 两步分类主函数
+# Main function for two-step classification
 # =========================================================
 classify_two_step <- function(merged_data, threshold_x, threshold_y, assay_x, assay_y) {
   
   ddG_x_col <- paste0("ddG_", assay_x)
   ddG_y_col <- paste0("ddG_", assay_y)
   
-  # 第一步：根据效应方向分类（只看阈值，不看FDR）
+  # Step 1: Classify based on the direction of the effect (consider only the threshold, not the FDR).
   merged_data[, direction_class := classify_by_direction(
     get(ddG_x_col), get(ddG_y_col), threshold_x, threshold_y
   )]
   
-  # 计算FDR标志
+  # Calculate FDR flags
   merged_data[, pass_FDR_x := p_adj_x < 0.05]
   merged_data[, pass_FDR_y := p_adj_y < 0.05]
   
-  # 第二步：根据FDR重新评估所有类型
+  # Step 2: Re-evaluate all types based on FDR.
   merged_data[, final_classification := reclassify_by_FDR(direction_class, pass_FDR_x, pass_FDR_y)]
   
   return(merged_data)
 }
 
 # =========================================================
-# 计算每个结构区域的富集OR值
+# Calculate the enrichment odds ratio (OR) for each structural region.
 # =========================================================
 calc_or_original <- function(df, region_residues, cat) {
   df[, in_region := Pos_real %in% region_residues]
@@ -248,16 +248,12 @@ calc_or_original <- function(df, region_residues, cat) {
 }
 
 # =========================================================
-# 添加Second shell位点定义（在structure_regions之前）
+# Add the second-shell site definition (before `structure_regions`).
 # =========================================================
 
-# 读取Second shell数据
+# Read second-shell data
 contact_shell_file <- "C:/Users/36146/OneDrive - USTC/DryLab/Data_analysis_scripts/distance_contacts_analysis/5binder_contact_shell2.csv"
 contact_shell <- fread(contact_shell_file)
-
-# =========================================================
-# 重新创建 second_shell_map（现在可以正确读取）
-# =========================================================
 
 second_shell_map <- list()
 
@@ -272,9 +268,6 @@ for(assay in names(input_files)) {
   }
 }
 
-# =========================================================
-# 修改 run_pair_all_regions 函数 - 使用assay特定的second shell
-# =========================================================
 
 run_pair_all_regions <- function(pair_name, input_files, anno, structure_regions, second_shell_map) {
   
@@ -294,10 +287,10 @@ run_pair_all_regions <- function(pair_name, input_files, anno, structure_regions
   threshold_x <- prepared$threshold_x
   threshold_y <- prepared$threshold_y
   
-  # 使用两步分类逻辑
+  # Use a two-step classification logic.
   df <- classify_two_step(df, threshold_x, threshold_y, x, y)
   
-  # 根据final_classification创建category
+  # Create a category based on final_classification.
   df[, category := fifelse(
     final_classification %in% c("Both promoting", "Both disrupting"),
     "Correlated",
@@ -317,7 +310,7 @@ run_pair_all_regions <- function(pair_name, input_files, anno, structure_regions
     )
   )]
   
-  # 打印统计信息
+  # Print statistics
   cat("\n分类统计:\n")
   cat("  Total mutations:", nrow(df), "\n")
   cat("  Correlated:", sum(df$category == "Correlated"), "\n")
@@ -326,13 +319,13 @@ run_pair_all_regions <- function(pair_name, input_files, anno, structure_regions
   cat("  Allosteric only in Y:", sum(df$category == "Allosteric only in Y"), "\n")
   cat("  Other:", sum(df$category == "Other"), "\n")
   
-  # 对每个结构区域计算占比和OR值
+  # Calculate the proportion and odds ratio (OR) for each structural region.
   all_results <- list()
   
   for(region_name in names(structure_regions)) {
     region_residues <- structure_regions[[region_name]]
     
-    # 计算每个类别的占比
+    # Calculate the proportion of each category.
     plot_df <- df[, .(
       frac = mean(Pos_real %in% region_residues),
       n = .N,
@@ -341,7 +334,7 @@ run_pair_all_regions <- function(pair_name, input_files, anno, structure_regions
     plot_df[, region := region_name]
     plot_df[, pair := pair_name]
     
-    # 计算每个类别的OR值
+    # Calculate the OR value for each category.
     categories_to_test <- c("Correlated", "Anti-correlated", 
                             "Allosteric only in X", "Allosteric only in Y", "Other")
     or_list <- lapply(categories_to_test, function(cat) {
@@ -362,7 +355,7 @@ run_pair_all_regions <- function(pair_name, input_files, anno, structure_regions
   }
   
   # =========================================================
-  # 添加 Second Shell 分析（使用assay特定的second shell）
+  # Add second-shell analysis (using assay-specific second shells).
   # =========================================================
   
   cat("\n--- Second Shell Analysis ---\n")
