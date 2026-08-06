@@ -26,8 +26,6 @@ This repository contains scripts for:
 
 ### R
 
-R >= 4.3
-
 ## Data availability
 
 Raw sequencing data are available through ENA/SRA.
