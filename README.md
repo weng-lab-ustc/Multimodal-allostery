@@ -28,10 +28,10 @@ This repository contains scripts for:
 
 ## Data availability
 
-Raw sequencing data are available through ENA/SRA.
+Raw sequencing data are available through ENA.
 
 Processed mutation-level binding free energy datasets required for figure
-reproduction are provided in the `data/` directory.
+reproduction are provided in the `data/@@` directory.
 
 Large intermediate files are not included in this repository.
 
