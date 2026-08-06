@@ -15,12 +15,12 @@ krasddpcams__merge_ddGf_fitness_5blocks <- function(prediction = prediction, fol
                                                                          block5_dimsum_df = block5_dimsum_df,
                                                                          wt_aa_input = wt_aa_input) {
   
-  # 读取预测和折叠自由能数据
+  # Read prediction and folding free energy data.
   pre <- fread(prediction)
   folding_ddG <- fread(folding_ddG)
   pre_pos <- krasddpcams__pos_id(input = pre, wt_aa = wt_aa_input)
   
-  # 加载所有5个block的数据
+  # Load data for all 5 blocks.
   load(block1_dimsum_df)
   block1 <- as.data.table(all_variants)
   load(block2_dimsum_df)
@@ -32,16 +32,16 @@ krasddpcams__merge_ddGf_fitness_5blocks <- function(prediction = prediction, fol
   load(block5_dimsum_df)
   block5 <- as.data.table(all_variants)
   
-  # 合并所有block的数据
+  # Merge data from all blocks.
   data_before_nor <- rbind(block1 = block1, block2 = block2, block3 = block3,
                            block4 = block4, block5 = block5, 
                            idcol = "block", fill = TRUE)
   
-  # 计算加权fitness所需的中间量
+  # Intermediate quantities required to calculate weighted fitness
   data_before_nor$fitness_over_sigmasquared <- data_before_nor$fitness/(data_before_nor$sigma)^2
   data_before_nor$one_over_fitness_sigmasquared <- 1/(data_before_nor$sigma)^2
   
-  # 计算每个block的终止密码子fitness（加权平均）
+  # Calculate the stop codon fitness (weighted average) for each block.
   calculate_stop_fitness <- function(block_name) {
     dead_fitness <- data_before_nor[STOP == TRUE & block == block_name, ]
     stop_fitness <- sum(dead_fitness$fitness_over_sigmasquared, na.rm = TRUE) /
@@ -55,7 +55,7 @@ krasddpcams__merge_ddGf_fitness_5blocks <- function(prediction = prediction, fol
   stop4_fitness <- calculate_stop_fitness("block4")
   stop5_fitness <- calculate_stop_fitness("block5")
   
-  # 计算每个block的野生型fitness（加权平均）
+  # Calculate the wild-type fitness (weighted average) for each block.
   calculate_wt_fitness <- function(block_name) {
     wt_fitness_block <- data_before_nor[WT == TRUE & block == block_name, ]
     wt_fitness <- sum(wt_fitness_block$fitness_over_sigmasquared, na.rm = TRUE) /
@@ -69,7 +69,7 @@ krasddpcams__merge_ddGf_fitness_5blocks <- function(prediction = prediction, fol
   wt4_fitness <- calculate_wt_fitness("block4")
   wt5_fitness <- calculate_wt_fitness("block5")
   
-  # 创建标准化数据
+  # Create standardized data
   scaling_data_fitness <- data.frame(
     block1 = c(stop1_fitness, wt1_fitness),
     block2 = c(stop2_fitness, wt2_fitness),
@@ -78,7 +78,7 @@ krasddpcams__merge_ddGf_fitness_5blocks <- function(prediction = prediction, fol
     block5 = c(stop5_fitness, wt5_fitness)
   )
   
-  # 以block1为基准，计算其他block的转换参数
+  # Calculate the transformation parameters for the other blocks using block 1 as the reference.
   calculate_scaling_params <- function(target_block) {
     lm_model <- lm(formula = block1 ~ get(target_block), data = scaling_data_fitness)
     return(list(
@@ -101,17 +101,17 @@ krasddpcams__merge_ddGf_fitness_5blocks <- function(prediction = prediction, fol
   d5 <- params_block5$slope
   e5 <- params_block5$intercept
   
-  # 处理预测数据
+  # Process prediction data
   pre_nor <- pre_pos
   
-  # 提取预测fitness（需要根据实际数据结构调整索引）
+  # Extract predicted fitness (indices need to be adjusted based on the actual data structure).
   extract_prediction <- function(row) {
     return(row[78 + as.numeric(row[92])])
   }
   pre_nor$predicted_fitness <- apply(pre_nor, MARGIN = 1, FUN = extract_prediction)
   pre_nor$predicted_fitness <- as.numeric(pre_nor$predicted_fitness)
   
-  # 提取加性性状（需要根据实际数据结构调整索引）
+  # Extract additive traits (indices need to be adjusted based on the actual data structure)
   extract_additive_trait0 <- function(row) {
     return(row[92 + as.numeric(row[92]) * 2 - 1])
   }
@@ -125,7 +125,7 @@ krasddpcams__merge_ddGf_fitness_5blocks <- function(prediction = prediction, fol
   pre_nor$additive_trait1 <- as.numeric(pre_nor$additive_trait1)
   pre_nor[, `:=`(additive_trait, additive_trait0 + additive_trait1)]
   
-  # 应用标准化转换（5个block）
+  # Apply normalization transformation (5 blocks)
   pre_nor[phenotype == 1, `:=`(pre_nor_mean_fitness, mean)]
   pre_nor[phenotype == 2, `:=`(pre_nor_mean_fitness, mean * d2 + e2)]
   pre_nor[phenotype == 3, `:=`(pre_nor_mean_fitness, mean * d3 + e3)]
