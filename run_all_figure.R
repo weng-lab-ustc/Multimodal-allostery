@@ -1,15 +1,15 @@
 library(krasddpcams)
 library(data.table)
 library(wlab.block)
-
+library(multimodalallostery)
 #pkgload::load_all(
 #  "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/package_refactor_20260810/multimodalallostery"
 #)
 
 
-pkgload::load_all(
-  "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/package_analysis_20260813_refactored/multimodalallostery"
-)
+#pkgload::load_all(
+#  "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/package_analysis_20260813_refactored/multimodalallostery"
+#)
 
 
 # ---- Figure1E ----
