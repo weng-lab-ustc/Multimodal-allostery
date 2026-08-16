@@ -19,7 +19,7 @@ This repository contains:
 
 ## Required software
 
-### R package(devtools::install_github("weng-lab-ustc/Multimodal-allostery"))
+### R package (devtools::install_github("weng-lab-ustc/Multimodal-allostery"))
 
 ### DiMSum v1.2.9 (pipeline for pre-processing deep mutational scanning data i.e. FASTQ to fitness)
 ### MoCHI (tool to fit mechanistic models to deep mutational scanning data i.e. fitness to free energy changes)
