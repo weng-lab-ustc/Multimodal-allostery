@@ -11,11 +11,10 @@ We performed deep mutational scanning of KRAS against multiple interaction
 partners to characterize the energetic landscape of protein binding and
 allosteric regulation.
 
-This repository contains scripts for:
-- processing and analyzing DMS-derived binding free energies
-- MoCHI model analysis
-- structural and allosteric analyses
-- reproducing figures in the manuscript
+This repository contains:
+- Fitness scores, inferred free energy changes and required miscellaneous files in the [Supplementary_data] directory 
+- Structural movie supplementary files 
+- Script for reproducing figures in the manuscript
 
 
 ## Repository organization
@@ -24,16 +23,16 @@ This repository contains scripts for:
 
 ## Required software
 
-### R
+### R package(devtools::install_github("weng-lab-ustc/Multimodal-allostery"))
 
 ## Data availability
 
-Raw sequencing data are available through ENA.
+Raw sequencing data are available through ENA(PRJEB123262).
 
 Processed mutation-level binding free energy datasets required for figure
 reproduction are provided in the [Supplementary_data] directory.
 
-Large intermediate files are not included in this repository.
+Large intermediate files in https://zenodo.org/records/21964541?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImRkNGUwNTQyLTAyNTctNDA5OC1hOTg3LWI0MWEwYmJlYWViZiIsImRhdGEiOnt9LCJyYW5kb20iOiJiMTFmZTg0NGFiYWFlNjI4MDBhZTllNWUwMjNiMzQ3MiJ9.KcsbLvolTHIo_qLRdpRhKzeC0keRtmWQRy3p1wdxsR2fklXCUS2MNxVZvD7GvvWJhDobe2oP7AYR1x7ZCgYeQQ.
 
 # multimodalallostery
 
