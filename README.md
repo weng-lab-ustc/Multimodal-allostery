@@ -17,10 +17,6 @@ This repository contains:
 - Script for reproducing figures in the manuscript
 
 
-## Repository organization
-
-
-
 ## Required software
 
 ### R package(devtools::install_github("weng-lab-ustc/Multimodal-allostery"))
