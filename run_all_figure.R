@@ -15,14 +15,14 @@ library(multimodalallostery)
 # ---- Figure1E ----
 run_figure1_e <- function() {
   result <- local({
-    Abundance <- multimodalallostery_normalize_fitness(block1 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
-                                   block2 = "C:/Users/36146/OneDrive - USTC/DryLab/DiMSum/DiMSum_rerun_20250821/20251010_合并同义突变数据_sigma数据清洁/Abundance_block2_Q20_rbg_filter2_20250829_fitness_replicates.RData", 
-                                   block3 = "C:/Users/36146/OneDrive - USTC/DryLab/DiMSum/DiMSum_rerun_20250821/20251010_合并同义突变数据_sigma数据清洁/Abundance_block3_Q20_rbg_filter2_20250829_fitness_replicates.RData")
+    Abundance <- multimodalallostery_normalize_fitness(block1 = "./fitness_RData_merge_version/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
+                                   block2 = "./fitness_RData_merge_version/Abundance_block2_Q20_rbg_filter2_20250829_fitness_replicates.RData", 
+                                   block3 = "./fitness_RData_merge_version/Abundance_block3_Q20_rbg_filter2_20250829_fitness_replicates.RData")
     Abundance <- multimodalallostery_classify_mutation_type(Abundance)
     cat("\nMutation distribution: Abundance\n")
     print(table(Abundance$mut_type))
     Abundance_plot <- multimodalallostery_plot_fitness_density(Abundance, assay_type = "Abundance")
-    ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/Abundance_normalized_density.pdf", 
+    ggsave("./Abundance_normalized_density.pdf", 
            Abundance_plot, width = 6, height = 4, units = "in")
     cat("Saved: C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/Abundance_normalized_density.pdf\n")
     K13 <- multimodalallostery_normalize_fitness(block1 = "C:/Users/36146/OneDrive - USTC/DryLab/DiMSum/DiMSum_rerun_20250821/20251010_合并同义突变数据_sigma数据清洁/K13_block1_Q20_rbg_filter2_20251109_fitness_replicates.RData", 
