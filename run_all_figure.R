@@ -87,9 +87,9 @@ run_figure1_f <- function() {
     print(plot_K13)
     print(plot_K19)
     print(plot_RAF1)
-    ggplot2::ggsave("./results/f1f_K13_binding_vs_abundance_fitness 3.pdf", 
+    ggplot2::ggsave("./results/f1f_K13_binding_vs_abundance_fitness.pdf", 
                     plot = plot_K13, device = grDevices::cairo_pdf, height = 4, width = 4)
-    ggplot2::ggsave("./results/f1f_K19_binding_vs_abundance_fitness 3.pdf", 
+    ggplot2::ggsave("./results/f1f_K19_binding_vs_abundance_fitness.pdf", 
                     plot = plot_K19, device = grDevices::cairo_pdf, height = 4, width = 4)
     ggplot2::ggsave("./results/f1f_RAF1_binding_vs_abundance_fitness.pdf", 
                     plot = plot_RAF1, device = grDevices::cairo_pdf, height = 4, width = 4)
@@ -353,12 +353,12 @@ run_figure3_d <- function() {
     plot_raf1 <- multimodalallostery_plot_energy_distance_decay_directional_no_filter(input = "./weights_Binding_RAF.txt", 
                                                                   assay_sele = "RAF1", anno_file = "./anno_final_for_5.csv")
     print(plot_raf1)
-    ggplot2::ggsave("./results/f3d_RAF1_directional_decay_noFDR v3.pdf", 
+    ggplot2::ggsave("./results/f3d_RAF1_directional_decay.pdf", 
                     plot_raf1, device = grDevices::cairo_pdf, width = 2.5, height = 2.5, units = "in", dpi = 300)
     plot_K13 <- multimodalallostery_plot_energy_distance_decay_directional_no_filter(input = "./weights_Binding_K13.txt", 
                                                                  assay_sele = "K13", anno_file = "./anno_final_for_5.csv")
     print(plot_K13)
-    ggplot2::ggsave("./results/f3d_K13_directional_decay_noFDR v3.pdf", 
+    ggplot2::ggsave("./results/f3d_K13_directional_decay.pdf", 
                     plot_K13, device = grDevices::cairo_pdf, width = 2.5, height = 2.5, units = "in", dpi = 300)
   })
   invisible(result)
@@ -400,12 +400,12 @@ run_figure3_f <- function() {
     plot_raf1 <- multimodalallostery_plot_energy_distance_decay_expfit_directional_no_fdr(input = "./weights_Binding_RAF.txt", 
                                                                       assay_sele = "RAF1", contact_shell = contact_shell, y_range = c(-1.5, 3))
     print(plot_raf1)
-    ggplot2::ggsave("./results/f3f_RAF1_contact_shell_decay_directional_noFDR v2.pdf", 
+    ggplot2::ggsave("./results/f3f_RAF1_contact_shell_decay_directional.pdf", 
                     plot_raf1, device = grDevices::cairo_pdf, height = 2.5, width = 2.5)
     plot_k13 <- multimodalallostery_plot_energy_distance_decay_expfit_directional_no_fdr(input = "./weights_Binding_K13.txt", 
                                                                      assay_sele = "K13", contact_shell = contact_shell, y_range = c(-1.5, 3))
     print(plot_k13)
-    ggplot2::ggsave("./results/f3f_K13_contact_shell_decay_directional_noFDR v2.pdf", 
+    ggplot2::ggsave("./results/f3f_K13_contact_shell_decay_directional.pdf", 
                     plot_k13, device = grDevices::cairo_pdf, height = 2.5, width = 2.5)
   })
   invisible(result)
@@ -438,7 +438,7 @@ run_figure4_b <- function() {
                                          anno = anno, wt_aa = wt_aa, colour_scheme = colour_scheme, allosteric_sites_list = allosteric_list, legend_limits = c(-1.3, 
                                                                                                                                                                3))
     print(p_triple)
-    ggplot2::ggsave("./results/f4b_triple_allosteric_sites_heatmap2.pdf", 
+    ggplot2::ggsave("./results/f4b_triple_allosteric_sites_heatmap.pdf", 
                     p_triple, width = 10, height = 8, device = cairo_pdf)
     #ggplot2::ggsave("/triple_allosteric_sites_heatmap.png", 
     #                p_triple, width = 12, height = 10, dpi = 300)
@@ -636,7 +636,7 @@ run_figure_s1_c <- function() {
                                                                          block3_dimsum_df = "./fitness_RData/MA_RAS_binding_K27_3_fitness_replicates_fullseq.RData")
     d_K13 <- multimodalallostery_plot_fitness_correlation_blocks_BI2(K13_nor_df, "K13", colour_scheme)
     print(d_K13)
-    ggplot2::ggsave("./results/s1c_figureS1a_fitness_correlation_blocks_K13.pdf", 
+    ggplot2::ggsave("./results/s1c_fitness_correlation_blocks_K13.pdf", 
                     d_K13, device = grDevices::cairo_pdf, height = 4, width = 4)
     d_K19 <- multimodalallostery_plot_fitness_correlation_blocks_BI2(K19_nor_df, "K19", colour_scheme)
     print(d_K19)
@@ -871,7 +871,7 @@ run_figure_s2_f <- function() {
     data1 = ddG_folding_new
     data2 = ddG_folding_weng
     correlation_plot <- multimodalallostery_plot_dd_g_correlation(data1 = ddG_folding_new, data2 = ddG_folding_weng, data1_name = "Folding_this study", 
-                                              data2_name = "Folding_Weng", output_file = "./results/s2f_ddG correlation between folding_new and folding_weng test2.pdf", 
+                                              data2_name = "Folding_Weng", output_file = "./results/s2f_ddG correlation between folding_new and folding_weng.pdf", 
                                               limits = c(-1.6, 2.8))
     print(correlation_plot)
     ddG_RAF1_new <- data.table::fread("./weights_Binding_RAF.txt")
@@ -881,7 +881,7 @@ run_figure_s2_f <- function() {
     data1 = ddG_RAF1_new
     data2 = ddG_RAF1_weng
     correlation_plot <- multimodalallostery_plot_dd_g_correlation(data1 = ddG_RAF1_new, data2 = ddG_RAF1_weng, data1_name = "RAF1_this study", data2_name = "RAF1_Weng", 
-                                              output_file = "./results/s2f_ddG correlation between RAF1_new and folding_weng test.pdf", 
+                                              output_file = "./results/s2f_ddG correlation between RAF1_new and folding_weng.pdf", 
                                               limits = c(-1.6, 2.8))
     print(correlation_plot)
     ddG_K55_new <- data.table::fread("./weights_Binding_K55.txt")
@@ -891,7 +891,7 @@ run_figure_s2_f <- function() {
     data1 = ddG_K55_new
     data2 = ddG_K55_weng
     correlation_plot <- multimodalallostery_plot_dd_g_correlation(data1 = ddG_K55_new, data2 = ddG_K55_weng, data1_name = "K55_this study", data2_name = "K55_Weng", 
-                                              output_file = "./results/s2f_ddG correlation between K55_new and folding_weng test.pdf", 
+                                              output_file = "./results/s2f_ddG correlation between K55_new and folding_weng.pdf", 
                                               limits = c(-1.6, 2.8))
     print(correlation_plot)
     ddG_K27_new <- data.table::fread("./weights_Binding_K27.txt")
@@ -901,7 +901,7 @@ run_figure_s2_f <- function() {
     data1 = ddG_K27_new
     data2 = ddG_K27_weng
     correlation_plot <- multimodalallostery_plot_dd_g_correlation(data1 = ddG_K27_new, data2 = ddG_K27_weng, data1_name = "K27_this study", data2_name = "K27_Weng", 
-                                              output_file = "./results/s2f_ddG correlation between K27_new and folding_weng test.pdf", 
+                                              output_file = "./results/s2f_ddG correlation between K27_new and folding_weng.pdf", 
                                               limits = c(-1.6, 2.8))
     print(correlation_plot)
   })
@@ -925,7 +925,7 @@ run_figure_s3_a <- function() {
     annotation <- data.table::fread(annotation_file)
     new_plot <- multimodalallostery_plot_beta_sheet_ddg(multimodalallostery_prepare_beta_sheet_ddg(data.table::fread(new_ddg_file), annotation, beta_sheet_ranges), "Binding free energy change(RAF1) \n(kcal/mol)")
     new_plot
-    ggplot2::ggsave("./results/s3a_ddG_betasheet decay new RAF1 energy data2.pdf", 
+    ggplot2::ggsave("./results/s3a_ddG_betasheet decay new RAF1 energy data.pdf", 
                     plot = new_plot, device = grDevices::cairo_pdf, height = 4, width = 4)
   })
   invisible(result)
@@ -1037,7 +1037,7 @@ run_figure_s3_f <- function() {
     plot_K19 <- multimodalallostery_plot_energy_distance_decay_directional_no_filter(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K19.txt", 
                                                                  assay_sele = "K19", anno_file = "C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_5.csv")
     print(plot_K19)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K19_directional_decay_noFDR v3.pdf", 
+    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K19_directional_decay.pdf", 
                     plot_K19, device = grDevices::cairo_pdf, width = 2.5, height = 2.5, units = "in", dpi = 300)
   })
   invisible(result)
@@ -1075,7 +1075,7 @@ run_figure_s3_h <- function() {
     plot_k19 <- multimodalallostery_plot_energy_distance_decay_expfit_directional_no_fdr(input = "./weights_Binding_K19.txt", 
                                                                      assay_sele = "K19", contact_shell = contact_shell, y_range = c(-1.5, 3))
     print(plot_k19)
-    ggplot2::ggsave("./results/s3h_K19_contact_shell_decay_directional_noFDR v2.pdf", 
+    ggplot2::ggsave("./results/s3h_K19_contact_shell_decay_directional.pdf", 
                     plot_k19, device = grDevices::cairo_pdf, height = 2.5, width = 2.5)
   })
   invisible(result)
@@ -1140,7 +1140,7 @@ run_figure_s5_a <- function() {
     cat("\n========== Correlation Matrix ==========\n")
     print(cor_matrix)
     cat("\n========== Generating heatmap with fixed order ==========\n")
-    output_heatmap <- "./results/s5a_correlation_heatmap_8binder_fixed_order5.pdf"
+    output_heatmap <- "./results/s5a_correlation_heatmap_8binder.pdf"
     multimodalallostery_plot_correlation_heatmap(cor_matrix = cor_matrix, p_matrix = p_matrix, output_file = output_heatmap, width = 10, height = 8)
     cat("\n========== Analysis Complete ==========\n")
     cat("Heatmap saved to:", output_heatmap, "\n")
@@ -1199,7 +1199,7 @@ run_figure_s5_c <- function() {
     cat("\n========================================================\n")
     mapping_plot <- multimodalallostery_plot_mapped_anticorrelated(k13_k19_data, raf1_k27_anticorrelated, NBP_RESIDUES, xlim = c(-1.5, 3), ylim = c(-1.5, 3))
     print(mapping_plot)
-    output_plot_path <- "./results/s5c_RAF1_K27_anticorrelated_mapped_to_K13_vs_K19_fixed_axis.pdf"
+    output_plot_path <- "./results/s5c_RAF1_K27_anticorrelated_mapped_to_K13_vs_K19.pdf"
     ggplot2::ggsave(output_plot_path, plot = mapping_plot, width = 4.5, height = 5, device = grDevices::cairo_pdf)
     cat("\nPlot saved to:\n")
     cat(output_plot_path, "\n")
@@ -1284,13 +1284,13 @@ run_figure_s5_e <- function() {
                                                                                                                               3))
     print(mapping_plot_K27_K19)
     output_dir <- "./results/"
-    ggplot2::ggsave(file.path(output_dir, "s5e_K13_K19_both_promoting_mapped_to_K27_vs_K13_fixed_axis.pdf"), plot = mapping_plot_K27_K13, 
+    ggplot2::ggsave(file.path(output_dir, "s5e_K13_K19_both_promoting_mapped_to_K27_vs_K13.pdf"), plot = mapping_plot_K27_K13, 
                     width = 4.5, height = 5, device = grDevices::cairo_pdf)
-    ggplot2::ggsave(file.path(output_dir, "s5e_K13_K19_both_promoting_mapped_to_K27_vs_K19_fixed_axis.pdf"), plot = mapping_plot_K27_K19, 
+    ggplot2::ggsave(file.path(output_dir, "s5e_K13_K19_both_promoting_mapped_to_K27_vs_K19.pdf"), plot = mapping_plot_K27_K19, 
                     width = 4.5, height = 5, device = grDevices::cairo_pdf)
     cat("\nPlots saved to:\n")
-    cat(file.path(output_dir, "s5e_K13_K19_both_promoting_mapped_to_K27_vs_K13_fixed_axis.pdf"), "\n")
-    cat(file.path(output_dir, "s5e_K13_K19_both_promoting_mapped_to_K27_vs_K19_fixed_axis.pdf"), "\n")
+    cat(file.path(output_dir, "s5e_K13_K19_both_promoting_mapped_to_K27_vs_K13.pdf"), "\n")
+    cat(file.path(output_dir, "s5e_K13_K19_both_promoting_mapped_to_K27_vs_K19.pdf"), "\n")
   })
   invisible(result)
 }
