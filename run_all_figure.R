@@ -1,10 +1,15 @@
 library(krasddpcams)
 library(data.table)
 library(wlab.block)
+#options(timeout = 600)
+#remotes::install_github(
+#  "weng-lab-ustc/Multimodal-allostery",
+#  dependencies = TRUE
+#)
 library(multimodalallostery)
 
 
-setwd("./Downloads/Multimodal-allostery-main/Supplementary_data/")
+setwd("~/Downloads/Multimodal-allostery-main 2/Supplementary_data/")
 # ---- Figure1E ----
 run_figure1_e <- function() {
   result <- local({
