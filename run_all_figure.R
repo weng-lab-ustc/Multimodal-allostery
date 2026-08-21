@@ -2,59 +2,39 @@ library(krasddpcams)
 library(data.table)
 library(wlab.block)
 library(multimodalallostery)
-#pkgload::load_all(
-#  "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/package_refactor_20260810/multimodalallostery"
-#)
 
 
-#pkgload::load_all(
-#  "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/package_analysis_20260813_refactored/multimodalallostery"
-#)
-
-
+setwd("./Downloads/Multimodal-allostery-main/Supplementary_data/")
 # ---- Figure1E ----
 run_figure1_e <- function() {
   result <- local({
-    Abundance <- multimodalallostery_normalize_fitness(block1 = "./fitness_RData_merge_version/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
-                                   block2 = "./fitness_RData_merge_version/Abundance_block2_Q20_rbg_filter2_20250829_fitness_replicates.RData", 
-                                   block3 = "./fitness_RData_merge_version/Abundance_block3_Q20_rbg_filter2_20250829_fitness_replicates.RData")
+    Abundance <- multimodalallostery_normalize_fitness(block1 = "./fitness_RData/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
+                                   block2 = "./fitness_RData_merge_version/MA_RAS_abundance_2_fitness_replicates_fullseq_merge.RData", 
+                                   block3 = "./fitness_RData_merge_version/MA_RAS_abundance_3_fitness_replicates_fullseq_merge.RData")
     Abundance <- multimodalallostery_classify_mutation_type(Abundance)
     cat("\nMutation distribution: Abundance\n")
     print(table(Abundance$mut_type))
     Abundance_plot <- multimodalallostery_plot_fitness_density(Abundance, assay_type = "Abundance")
-    ggsave("./Abundance_normalized_density.pdf", 
+    ggsave("./results/Abundance_normalized_density.pdf", 
            Abundance_plot, width = 6, height = 4, units = "in")
-    cat("Saved: C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/Abundance_normalized_density.pdf\n")
-    K13 <- multimodalallostery_normalize_fitness(block1 = "C:/Users/36146/OneDrive - USTC/DryLab/DiMSum/DiMSum_rerun_20250821/20251010_合并同义突变数据_sigma数据清洁/K13_block1_Q20_rbg_filter2_20251109_fitness_replicates.RData", 
-                             block2 = "C:/Users/36146/OneDrive - USTC/DryLab/DiMSum/DiMSum_rerun_20250821/20251010_合并同义突变数据_sigma数据清洁/K13_block2_Q20_rbg_filter2_20250829_fitness_replicates.RData", 
-                             block3 = "C:/Users/36146/OneDrive - USTC/DryLab/DiMSum/DiMSum_rerun_20250821/20251010_合并同义突变数据_sigma数据清洁/K13_block3_Q20_rbg_filter2_20250829_fitness_replicates.RData")
+    K13 <- multimodalallostery_normalize_fitness(block1 = "./fitness_RData_merge_version/MA_RAS_binding_K13_1_fitness_replicates_fullseq_merge.RData", 
+                             block2 = "./fitness_RData_merge_version/MA_RAS_binding_K13_2_fitness_replicates_fullseq_merge.RData", 
+                             block3 = "./fitness_RData_merge_version/MA_RAS_binding_K13_3_fitness_replicates_fullseq_merge.RData")
     K13 <- multimodalallostery_classify_mutation_type(K13)
     cat("\nMutation distribution: K13\n")
     print(table(K13$mut_type))
     K13_plot <- multimodalallostery_plot_fitness_density(K13, assay_type = "K13")
-    ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K13_normalized_density.pdf", 
+    ggsave("./results/K13_normalized_density.pdf", 
            K13_plot, width = 6, height = 4, units = "in")
-    cat("Saved: C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K13_normalized_density.pdf\n")
-    K19 <- multimodalallostery_normalize_fitness(block1 = "C:/Users/36146/OneDrive - USTC/DryLab/DiMSum/DiMSum_rerun_20250821/20251010_合并同义突变数据_sigma数据清洁/K19_block1_Q20_rbg_filter8_20251109_fitness_replicates.RData", 
-                             block2 = "C:/Users/36146/OneDrive - USTC/DryLab/DiMSum/DiMSum_rerun_20250821/20251010_合并同义突变数据_sigma数据清洁/K19_block2_Q20_rbg_filter1_20251107_fitness_replicates.RData", 
-                             block3 = "C:/Users/36146/OneDrive - USTC/DryLab/DiMSum/DiMSum_rerun_20250821/20251010_合并同义突变数据_sigma数据清洁/K19_block2_Q20_rbg_filter3_20250830_fitness_replicates.RData")
+    K19 <- multimodalallostery_normalize_fitness(block1 = "./fitness_RData_merge_version/MA_RAS_binding_K19_1_fitness_replicates_fullseq_merge.RData", 
+                             block2 = "./fitness_RData_merge_version/MA_RAS_binding_K19_2_fitness_replicates_fullseq_merge.RData", 
+                             block3 = "./fitness_RData_merge_version/MA_RAS_binding_K19_3_fitness_replicates_fullseq_merge.RData")
     K19 <- multimodalallostery_classify_mutation_type(K19)
     cat("\nMutation distribution: K19\n")
     print(table(K19$mut_type))
     K19_plot <- multimodalallostery_plot_fitness_density(K19, assay_type = "K19")
-    ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K19_normalized_density.pdf", 
+    ggsave("./results/K19_normalized_density.pdf", 
            K19_plot, width = 6, height = 4, units = "in")
-    cat("Saved: C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K19_normalized_density.pdf\n")
-    RAF1 <- multimodalallostery_normalize_fitness(block1 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_RAF_1_fitness_replicates_fullseq.RData", 
-                              block2 = "C:/Users/36146/OneDrive - USTC/DryLab/DiMSum/DiMSum_rerun_20250821/20251010_合并同义突变数据_sigma数据清洁/RAF_block2_Q20_rbg_filter2_20250829_fitness_replicates.RData", 
-                              block3 = "C:/Users/36146/OneDrive - USTC/DryLab/DiMSum/DiMSum_rerun_20250821/20251010_合并同义突变数据_sigma数据清洁/RAF_block3_Q20_rbg_filter2_20250829_fitness_replicates.RData")
-    RAF1 <- multimodalallostery_classify_mutation_type(RAF1)
-    cat("\nMutation distribution: RAF1\n")
-    print(table(RAF1$mut_type))
-    RAF1_plot <- multimodalallostery_plot_fitness_density(RAF1, assay_type = "RAF1")
-    ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/RAF1_normalized_density.pdf", 
-           RAF1_plot, width = 6, height = 4, units = "in")
-    cat("Saved: C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/RAF1_normalized_density.pdf\n")
   })
   invisible(result)
 }
@@ -62,23 +42,23 @@ run_figure1_e <- function() {
 
 run_figure1_e()
 
-
+# 
 # ---- Figure1F ----
 run_figure1_f <- function() {
   result <- local({
     wt_aa <- "TEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHHYREQIKRVKDSEDVPMVLVGNKCDLPSRTVDTKQAQDLARSYGIPFIETSAKTRQGVDDAFYTLVREIRKHKEKMSKDGKKKKKKSKTKCVIM"
-    stability_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
-                                                                               block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/Abundance_block2_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
-                                                                               block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/Abundance_block3_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData")
-    K13_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K13_block1_Q20_rbg_filter2_20251109_fitness_replicates.RData", 
-                                                                         block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K13_block2_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
-                                                                         block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K13_block3_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData")
-    K19_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K19_block1_Q20_rbg_filter8_20251109_fitness_replicates_cleaned.RData", 
-                                                                         block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K19_block2_Q20_rbg_filter1_20251107_fitness_replicates_cleaned.RData", 
-                                                                         block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K19_block3_Q20_rbg_filter2_20250829_fitness_replicates.RData")
-    RAF1_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_RAF_1_fitness_replicates_fullseq.RData", 
-                                                                          block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/RAF_block2_Q20_rbg_filter2_20250829_fitness_replicates.RData", 
-                                                                          block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/RAF_block3_Q20_rbg_filter2_20250829_fitness_replicates.RData")
+    stability_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "./fitness_RData/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
+                                                                               block2_dimsum_df = "./fitness_RData/MA_RAS_abundance_2_fitness_replicates_fullseq.RData", 
+                                                                               block3_dimsum_df = "./fitness_RData/MA_RAS_abundance_3_fitness_replicates_fullseq.RData")
+    K13_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "./fitness_RData/MA_RAS_binding_K13_1_fitness_replicates_fullseq.RData", 
+                                                                         block2_dimsum_df = "./fitness_RData/MA_RAS_binding_K13_2_fitness_replicates_fullseq.RData", 
+                                                                         block3_dimsum_df = "./fitness_RData/MA_RAS_binding_K13_3_fitness_replicates_fullseq.RData")
+    K19_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "./fitness_RData/MA_RAS_binding_K19_1_fitness_replicates_fullseq.RData", 
+                                                                         block2_dimsum_df = "./fitness_RData/MA_RAS_binding_K19_2_fitness_replicates_fullseq.RData", 
+                                                                         block3_dimsum_df = "./fitness_RData/MA_RAS_binding_K19_3_fitness_replicates_fullseq.RData")
+    RAF1_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "./fitness_RData/CW_RAS_binding_RAF_1_fitness_replicates_fullseq.RData", 
+                                                                          block2_dimsum_df = "./fitness_RData/MA_RAS_binding_RAF_2_fitness_replicates_fullseq.RData", 
+                                                                          block3_dimsum_df = "./fitness_RData/MA_RAS_binding_RAF_3_fitness_replicates_fullseq.RData")
     stab <- stability_nor_df
     K13 <- K13_nor_df
     K19 <- K19_nor_df
@@ -89,9 +69,9 @@ run_figure1_f <- function() {
     all_data_pos_K13 <- multimodalallostery_identify_mutation_positions(all_data_K13, wt_aa)
     all_data_pos_K19 <- multimodalallostery_identify_mutation_positions(all_data_K19, wt_aa)
     all_data_pos_RAF1 <- multimodalallostery_identify_mutation_positions(all_data_RAF1, wt_aa)
-    anno <- data.table::fread("C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_5.csv")
+    anno <- data.table::fread("./anno_final_for_5.csv")
     anno[, `:=`(Pos_real, Pos)]
-    summery <- wlab.block::ddG_data_assay(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt", 
+    summery <- wlab.block::ddG_data_assay(input = "./weights_Binding_RAF.txt", 
                                           wt_aa = wt_aa)
     anno <- merge(anno, summery, by = "Pos_real", all = T)
     plot_K13 <- multimodalallostery_plot_binding_fitness(input = all_data_pos_K13, assay_sele = "K13", anno = anno)
@@ -100,11 +80,11 @@ run_figure1_f <- function() {
     print(plot_K13)
     print(plot_K19)
     print(plot_RAF1)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K13_binding_vs_abundance_fitness 3.pdf", 
+    ggplot2::ggsave("./results/K13_binding_vs_abundance_fitness 3.pdf", 
                     plot = plot_K13, device = grDevices::cairo_pdf, height = 4, width = 4)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K19_binding_vs_abundance_fitness 3.pdf", 
+    ggplot2::ggsave("./results/K19_binding_vs_abundance_fitness 3.pdf", 
                     plot = plot_K19, device = grDevices::cairo_pdf, height = 4, width = 4)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/RAF1_binding_vs_abundance_fitness.pdf", 
+    ggplot2::ggsave("./results/RAF1_binding_vs_abundance_fitness.pdf", 
                     plot = plot_RAF1, device = grDevices::cairo_pdf, height = 4, width = 4)
   })
   invisible(result)
@@ -114,30 +94,30 @@ run_figure1_f()
 
 
 
-
+# ✅
 # ---- Figure1G ----
 run_figure1_g <- function() {
   result <- local({
     wt_aa <- "TEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHHYREQIKRVKDSEDVPMVLVGNKCDLPSRTVDTKQAQDLARSYGIPFIETSAKTRQGVDDAFYTLVREIRKHKEKMSKDGKKKKKKSKTKCVIM"
-    anno <- data.table::fread("C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_5.csv")
-    p_k13 <- multimodalallostery_plot_scatter_dd_gb_dd_gf(ddG1 = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Folding.txt", 
-                                      assay1 = "folding", ddG2 = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt", 
+    anno <- data.table::fread("./anno_final_for_5.csv")
+    p_k13 <- multimodalallostery_plot_scatter_dd_gb_dd_gf(ddG1 = "./weights_Folding.txt", 
+                                      assay1 = "folding", ddG2 = "./weights_Binding_K13.txt", 
                                       assay2 = "K13", anno = anno, binder = "K13")
     p_k13
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/scatter_ddGb_ddGf_K13.pdf", 
+    ggplot2::ggsave("./results/scatter_ddGb_ddGf_K13.pdf", 
                     p_k13, device = grDevices::cairo_pdf, height = 4, width = 4)
-    p_k19 <- multimodalallostery_plot_scatter_dd_gb_dd_gf(ddG1 = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Folding.txt", 
-                                      assay1 = "folding", ddG2 = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K19.txt", 
+    p_k19 <- multimodalallostery_plot_scatter_dd_gb_dd_gf(ddG1 = "./weights_Folding.txt", 
+                                      assay1 = "folding", ddG2 = "./weights_Binding_K19.txt", 
                                       assay2 = "K19", anno = anno, binder = "K19")
     p_k19
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/scatter_ddGb_ddGf_K19.pdf", 
-                    p_k19, device = grDevices::cairo_pdf, height = 4, width = 4)
-    p_RAF1 <- multimodalallostery_plot_scatter_dd_gb_dd_gf(ddG1 = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Folding.txt", 
-                                       assay1 = "folding", ddG2 = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt", 
+    ggplot2::ggsave("./results/scatter_ddGb_ddGf_K19.pdf", 
+                    p_k19, device = "pdf", height = 4, width = 4)
+    p_RAF1 <- multimodalallostery_plot_scatter_dd_gb_dd_gf(ddG1 = "./weights_Folding.txt", 
+                                       assay1 = "folding", ddG2 = "./weights_Binding_RAF.txt", 
                                        assay2 = "RAF1", anno = anno, binder = "RAF1")
     p_RAF1
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/scatter_ddGb_ddGf_RAF1.pdf", 
-                    p_RAF1, device = grDevices::cairo_pdf, height = 4, width = 4)
+    ggplot2::ggsave("./results/scatter_ddGb_ddGf_RAF1.pdf", 
+                    p_RAF1, device = "pdf", height = 4, width = 4)
   })
   invisible(result)
 }
@@ -146,47 +126,47 @@ run_figure1_g()
 
 
 
-
+# ✅
 # ---- Figure1H ----
 run_figure1_h <- function() {
   result <- local({
     wt_aa <- "TEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHHYREQIKRVKDSEDVPMVLVGNKCDLPSRTVDTKQAQDLARSYGIPFIETSAKTRQGVDDAFYTLVREIRKHKEKMSKDGKKKKKKSKTKCVIM"
-    multimodalallostery_dd_g_heatmap(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Folding.txt", 
+    multimodalallostery_dd_g_heatmap(input = "./weights_Folding.txt", 
                  wt_aa = wt_aa, title = "KRAS-Folding free energy changes", legend_limits = c(-1.5, 3.3))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-Folding free energy changes.pdf", 
-                    device = grDevices::cairo_pdf, height = 6, width = 20)
-    multimodalallostery_dd_g_heatmap(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt", 
+    ggplot2::ggsave("./results/KRAS-Folding free energy changes heatmap.pdf", 
+                    device = "pdf", height = 6, width = 20)
+    multimodalallostery_dd_g_heatmap(input = "./weights_Binding_RAF.txt", 
                  wt_aa = wt_aa, title = "KRAS-RAF1 binding free energy changes", legend_limits = c(-1.5, 3.3))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-RAF1 binding free energy changes.pdf", 
-                    device = grDevices::cairo_pdf, height = 6, width = 20)
-    multimodalallostery_dd_g_heatmap(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_SOS.txt", 
-                 wt_aa = wt_aa, title = "KRAS-SOS1 binding free energy changes", legend_limits = c(-1.5, 3.3))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-SOS1 binding free energy changes.pdf", 
-                    device = grDevices::cairo_pdf, height = 6, width = 20)
-    multimodalallostery_dd_g_heatmap(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K55.txt", 
-                 wt_aa = wt_aa, title = "KRAS-K55 binding free energy changes", legend_limits = c(-1.5, 3.3))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-K55 binding free energy changes.pdf", 
-                    device = grDevices::cairo_pdf, height = 6, width = 20)
-    multimodalallostery_dd_g_heatmap(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K27.txt", 
-                 wt_aa = wt_aa, title = "KRAS-K27 binding free energy changes", legend_limits = c(-1.5, 3.3))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-K27 binding free energy changes.pdf", 
-                    device = grDevices::cairo_pdf, height = 6, width = 20)
-    multimodalallostery_dd_g_heatmap(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAL.txt", 
-                 wt_aa = wt_aa, title = "KRAS-RALGDS binding free energy changes", legend_limits = c(-1.5, 3.3))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-RALGDS binding free energy changes.pdf", 
-                    device = grDevices::cairo_pdf, height = 6, width = 20)
-    multimodalallostery_dd_g_heatmap(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_PI3.txt", 
-                 wt_aa = wt_aa, title = "KRAS-PIK3CG binding free energy changes", legend_limits = c(-1.5, 3.3))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-PIK3CG binding free energy changes.pdf", 
-                    device = grDevices::cairo_pdf, height = 6, width = 20)
-    multimodalallostery_dd_g_heatmap(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt", 
-                 wt_aa = wt_aa, title = "KRAS-DARPin_K13 binding free energy changes", legend_limits = c(-1.5, 3.3))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K13 heatmap.pdf", device = grDevices::cairo_pdf, 
+    ggplot2::ggsave("./results/KRAS-RAF1 binding free energy changes.pdf", 
+                    device = "pdf", height = 6, width = 20)
+    multimodalallostery_dd_g_heatmap(input = "./weights_Binding_SOS.txt", 
+                 wt_aa = wt_aa, title = "KRAS-SOS1 binding free energy changes heatmap", legend_limits = c(-1.5, 3.3))
+    ggplot2::ggsave("./results/KRAS-SOS1 binding free energy changes.pdf", 
+                    device = "pdf", height = 6, width = 20)
+    multimodalallostery_dd_g_heatmap(input = "./weights_Binding_K55.txt", 
+                 wt_aa = wt_aa, title = "KRAS-K55 binding free energy changes heatmap", legend_limits = c(-1.5, 3.3))
+    ggplot2::ggsave("./results/KRAS-K55 binding free energy changes.pdf", 
+                    device = "pdf", height = 6, width = 20)
+    multimodalallostery_dd_g_heatmap(input = "./weights_Binding_K27.txt", 
+                 wt_aa = wt_aa, title = "KRAS-K27 binding free energy changes heatmap", legend_limits = c(-1.5, 3.3))
+    ggplot2::ggsave("./results/KRAS-K27 binding free energy changes.pdf", 
+                    device = "pdf", height = 6, width = 20)
+    multimodalallostery_dd_g_heatmap(input = "./weights_Binding_RAL.txt", 
+                 wt_aa = wt_aa, title = "KRAS-RALGDS binding free energy changes heatmap", legend_limits = c(-1.5, 3.3))
+    ggplot2::ggsave("./results/KRAS-RALGDS binding free energy changes.pdf", 
+                    device = "pdf", height = 6, width = 20)
+    multimodalallostery_dd_g_heatmap(input = "./weights_Binding_PI3.txt", 
+                 wt_aa = wt_aa, title = "KRAS-PIK3CG binding free energy changes heatmap", legend_limits = c(-1.5, 3.3))
+    ggplot2::ggsave("./results/KRAS-PIK3CG binding free energy changes.pdf", 
+                    device = "pdf", height = 6, width = 20)
+    multimodalallostery_dd_g_heatmap(input = "./weights_Binding_K13.txt", 
+                 wt_aa = wt_aa, title = "KRAS-DARPin_K13 binding free energy changes heatmap", legend_limits = c(-1.5, 3.3))
+    ggplot2::ggsave("./results/K13 heatmap.pdf", device = "pdf", 
                     height = 6, width = 20)
-    multimodalallostery_dd_g_heatmap(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K19.txt", 
+    multimodalallostery_dd_g_heatmap(input = "./weights_Binding_K19.txt", 
                  wt_aa = wt_aa, title = "KRAS-DARPin_K19 binding free energy changes", legend_limits = c(-1.5, 3.3))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-DARPin_K19 binding free energy changes.pdf", 
-                    device = grDevices::cairo_pdf, height = 6, width = 20)
+    ggplot2::ggsave("./results/KRAS-DARPin_K19 binding free energy changes.pdf", 
+                    device = "pdf", height = 6, width = 20)
   })
   invisible(result)
 }
@@ -194,7 +174,7 @@ run_figure1_h <- function() {
 run_figure1_h()
 
 
-
+# ✅
 # ---- Figure1I ----
 run_figure1_i <- function() {
   result <- local({
@@ -217,8 +197,8 @@ run_figure1_i <- function() {
     p <- multimodalallostery_plot_sequence_annotation(prepared_sequence = sequence_annotation, gtp_pocket = GTP_pocket, functional_loops = functional_loop, 
                                   core_residues = common_core_residues, beta_sheets = rects_sheet, alpha_helices = rects_helix)
     print(p)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/sequence_structure_rotated.pdf", 
-                    plot = p, device = grDevices::cairo_pdf, height = 4, width = 20, dpi = 300)
+    ggplot2::ggsave("./results/sequence_structure_rotated.pdf", 
+                    plot = p, device = "pdf", height = 4, width = 20, dpi = 300)
   })
   invisible(result)
 }
@@ -227,11 +207,11 @@ run_figure1_i <- function() {
 run_figure1_i()
 
 
-
+# ✅
 # ---- Figure2A ----
 run_figure2_a <- function() {
   result <- local({
-    ddG_file <- "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt"
+    ddG_file <- "./weights_Binding_K13.txt"
     binding_interface_residues <- c(63, 105, 106, 98, 107, 101, 102, 99, 136, 95, 137, 94, 133, 90, 129, 87, 91, 88)
     position_labels <- c(`106` = "S106", `105` = "D105", `63` = "E63", `98` = "E98", `107` = "E107", `101` = "K101", `102` = "R102", 
                          `99` = "Q99", `136` = "S136", `95` = "H95", `137` = "Y137", `94` = "H94", `133` = "L133", `90` = "F90", `129` = "Q129", 
@@ -239,9 +219,9 @@ run_figure2_a <- function() {
     p <- multimodalallostery_plot_binding_interface_residue_median_dd_g_heatmap(ddG_file = ddG_file, binding_sites = binding_interface_residues, 
                                                             position_labels = position_labels, title = "K13 Binding Interface Residues - Median ΔΔGb")
     print(p)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K13_BI_residues_median_ddG_heatmap.pdf", 
-                    p, device = grDevices::cairo_pdf, height = 8, width = 3)
-    ddG_file <- "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K19.txt"
+    ggplot2::ggsave("./results/K13_BI_residues_median_ddG_heatmap.pdf", 
+                    p, device = "pdf", height = 8, width = 3)
+    ddG_file <- "./weights_Binding_K19.txt"
     binding_interface_residues <- c(98, 107, 101, 102, 99, 136, 95, 137, 94, 133, 90, 129, 87, 91, 88, 68, 108)
     position_labels <- c(`98` = "E98", `107` = "E107", `101` = "K101", `102` = "R102", `99` = "Q99", `136` = "S136", `95` = "H95", 
                          `137` = "Y137", `94` = "H94", `133` = "L133", `90` = "F90", `129` = "Q129", `87` = "T87", `91` = "E91", `88` = "K88", 
@@ -249,8 +229,8 @@ run_figure2_a <- function() {
     p <- multimodalallostery_plot_binding_interface_residue_median_dd_g_heatmap(ddG_file = ddG_file, binding_sites = binding_interface_residues, 
                                                             position_labels = position_labels, title = "K19 Binding Interface Residues - Median ΔΔGb")
     print(p)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K19_BI_residues_median_ddG_heatmap.pdf", 
-                    p, device = grDevices::cairo_pdf, height = 7, width = 3)
+    ggplot2::ggsave("./results/K19_BI_residues_median_ddG_heatmap.pdf", 
+                    p, device = "pdf", height = 7, width = 3)
   })
   invisible(result)
 }
@@ -260,16 +240,16 @@ run_figure2_a <- function() {
 run_figure2_a()
 
 
-
+# ✅
 # ---- Figure2C ----
 run_figure2_c <- function() {
   result <- local({
     residues_list <- c("K88", "E91", "T87", "Q129", "F90", "L133", "H94", "Y137", "H95", "R68", "S136", "Q99", "R102", "K101", 
                        "E107", "E98")
-    multimodalallostery_plot_dd_g_beeswarm(ddG_file = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt", 
-                       assay_sele = "K13", residues = residues_list, output_file = "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/Figure_sites_mut_ddG_beeswarm_K13.pdf")
-    multimodalallostery_plot_dd_g_beeswarm(ddG_file = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K19.txt", 
-                       assay_sele = "K19", residues = residues_list, output_file = "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/Figure_sites_mut_ddG_beeswarm_K19.pdf")
+    multimodalallostery_plot_dd_g_beeswarm(ddG_file = "./weights_Binding_K13.txt", 
+                       assay_sele = "K13", residues = residues_list, output_file = "./results/Figure_sites_mut_ddG_beeswarm_K13.pdf")
+    multimodalallostery_plot_dd_g_beeswarm(ddG_file = "./weights_Binding_K19.txt", 
+                       assay_sele = "K19", residues = residues_list, output_file = "./results/Figure_sites_mut_ddG_beeswarm_K19.pdf")
   })
   invisible(result)
 }
@@ -278,13 +258,13 @@ run_figure2_c()
 
 
 
-
+# ✅
 # ---- Figure2D ----
 run_figure2_d <- function() {
   result <- local({
-    ddG1 <- krasddpcams::krasddpcams__read_ddG(ddG = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt", 
+    ddG1 <- krasddpcams::krasddpcams__read_ddG(ddG = "./weights_Binding_K13.txt", 
                                                assay_sele = "K13")
-    ddG2 <- krasddpcams::krasddpcams__read_ddG(ddG = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K19.txt", 
+    ddG2 <- krasddpcams::krasddpcams__read_ddG(ddG = "./weights_Binding_K19.txt", 
                                                assay_sele = "K19")
     interface_sites <- c(98, 107, 101, 102, 99, 136, 95, 137, 94, 133, 90, 129, 87, 91, 88)
     comparison_data <- multimodalallostery_prepare_interface_ddg_comparison(data_x = ddG1, data_y = ddG2, interface_x = interface_sites, interface_y = interface_sites, 
@@ -298,8 +278,8 @@ run_figure2_d <- function() {
     cat("Number of outliers that might be due to measurement noise:", analysis$noise_count, "/", analysis$num_outliers, "\n")
     p <- multimodalallostery_plot_ddg_correlation_outliers(analysis, x_label = "ΔΔG for K13 Binding Interface Mutations (kcal/mol)", y_label = "ΔΔG for K19 Binding Interface Mutations (kcal/mol)")
     print(p)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/scatter_plot_compare_K13_K19_binding_interface_label_outlier_per_mutations.pdf", 
-                    plot = p, device = grDevices::cairo_pdf, height = 6, width = 6, dpi = 300)
+    ggplot2::ggsave("./results/scatter_plot_compare_K13_K19_binding_interface_label_outlier_per_mutations.pdf", 
+                    plot = p, device = "pdf", height = 6, width = 6, dpi = 300)
   })
   invisible(result)
 }
@@ -308,7 +288,7 @@ run_figure2_d <- function() {
 run_figure2_d()
 
 
-
+# ✅
 # ---- Figure3A ----
 run_figure3_a <- function() {
   result <- local({
@@ -317,15 +297,15 @@ run_figure3_a <- function() {
                                                                                                               "β4", "β5", "β6"))
     rects_helix <- data.frame(xstart = c(15, 67, 87, 127, 148), xend = c(24, 73, 104, 136, 166), col = c("α1", "α2", "α3", 
                                                                                                          "α4", "α5"))
-    multimodalallostery_manhatta_plot_single_assay(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt", 
-                               assay_sele = "K13", anno = "C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_5.csv", 
+    multimodalallostery_manhatta_plot_single_assay(input = "./weights_Binding_K13.txt", 
+                               assay_sele = "K13", anno = "./anno_final_for_5.csv", 
                                rects_sheet = rects_sheet, rects_alpha = rects_helix, wt_aa = wt_aa)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/figure3a_K13_Manhattan_plot.pdf", 
+    ggplot2::ggsave("./results/figure3a_K13_Manhattan_plot.pdf", 
                     device = grDevices::cairo_pdf, height = 9, width = 12)
-    multimodalallostery_manhatta_plot_single_assay(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt", 
-                               assay_sele = "RAF1", anno = "C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_5.csv", 
+    multimodalallostery_manhatta_plot_single_assay(input = "./weights_Binding_RAF.txt", 
+                               assay_sele = "RAF1", anno = "./anno_final_for_5.csv", 
                                rects_sheet = rects_sheet, rects_alpha = rects_helix, wt_aa = wt_aa)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/figure3a_RAF1_Manhattan_plot.pdf", 
+    ggplot2::ggsave("./results/figure3a_RAF1_Manhattan_plot.pdf", 
                     device = grDevices::cairo_pdf, height = 9, width = 12)
   })
   invisible(result)
@@ -337,19 +317,19 @@ run_figure3_a()
 
 
 
-
+# ✅
 # ---- Figure3C ----
 run_figure3_c <- function() {
   result <- local({
-    plot_raf1 <- multimodalallostery_plot_energy_distance_decay_expfit_annotation(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt", 
-                                                              assay_sele = "RAF1", anno_file = "C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_5.csv")
+    plot_raf1 <- multimodalallostery_plot_energy_distance_decay_expfit_annotation(input = "./weights_Binding_RAF.txt", 
+                                                              assay_sele = "RAF1", anno_file = "./anno_final_for_5.csv")
     print(plot_raf1)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/RAF1_distance_decay all mutations.pdf", 
+    ggplot2::ggsave("./results/RAF1_distance_decay all mutations.pdf", 
                     plot_raf1, device = grDevices::cairo_pdf, width = 2.5, height = 2.5, units = "in", dpi = 300)
-    plot_k13 <- multimodalallostery_plot_energy_distance_decay_expfit_annotation(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt", 
-                                                             assay_sele = "K13", anno_file = "C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_5.csv")
+    plot_k13 <- multimodalallostery_plot_energy_distance_decay_expfit_annotation(input = "./weights_Binding_K13.txt", 
+                                                             assay_sele = "K13", anno_file = "./anno_final_for_5.csv")
     print(plot_k13)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K13_distance_decay all mutations.pdf", 
+    ggplot2::ggsave("./results/K13_distance_decay all mutations.pdf", 
                     plot_k13, device = grDevices::cairo_pdf, width = 2.5, height = 2.5, units = "in", dpi = 300)
   })
   invisible(result)
@@ -359,19 +339,19 @@ run_figure3_c()
 
 
 
-
+# ✅
 # ---- Figure3D ----
 run_figure3_d <- function() {
   result <- local({
-    plot_raf1 <- multimodalallostery_plot_energy_distance_decay_directional_no_filter(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt", 
-                                                                  assay_sele = "RAF1", anno_file = "C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_5.csv")
+    plot_raf1 <- multimodalallostery_plot_energy_distance_decay_directional_no_filter(input = "./weights_Binding_RAF.txt", 
+                                                                  assay_sele = "RAF1", anno_file = "./anno_final_for_5.csv")
     print(plot_raf1)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/RAF1_directional_decay_noFDR v3.pdf", 
+    ggplot2::ggsave("./results/RAF1_directional_decay_noFDR v3.pdf", 
                     plot_raf1, device = grDevices::cairo_pdf, width = 2.5, height = 2.5, units = "in", dpi = 300)
-    plot_K13 <- multimodalallostery_plot_energy_distance_decay_directional_no_filter(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt", 
-                                                                 assay_sele = "K13", anno_file = "C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_5.csv")
+    plot_K13 <- multimodalallostery_plot_energy_distance_decay_directional_no_filter(input = "./weights_Binding_K13.txt", 
+                                                                 assay_sele = "K13", anno_file = "./anno_final_for_5.csv")
     print(plot_K13)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K13_directional_decay_noFDR v3.pdf", 
+    ggplot2::ggsave("./results/K13_directional_decay_noFDR v3.pdf", 
                     plot_K13, device = grDevices::cairo_pdf, width = 2.5, height = 2.5, units = "in", dpi = 300)
   })
   invisible(result)
@@ -380,19 +360,20 @@ run_figure3_d <- function() {
 run_figure3_d()
 
 
+# ✅
 # ---- Figure3E ----
 run_figure3_e <- function() {
   result <- local({
-    contact_shell <- data.table::fread("C:/Users/36146/OneDrive - USTC/DryLab/Data_analysis_scripts/distance_contacts_analysis/5binder_contact_shell2.csv")
-    plot_raf1 <- multimodalallostery_plot_energy_distance_decay_expfit_contact_shell(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt", 
+    contact_shell <- data.table::fread("./5binder_contact_shell2.csv")
+    plot_raf1 <- multimodalallostery_plot_energy_distance_decay_expfit_contact_shell(input = "./weights_Binding_RAF.txt", 
                                                                  assay_sele = "RAF1", contact_shell = contact_shell)
     print(plot_raf1)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/RAF1_contact_shell_decay all mutations.pdf", 
+    ggplot2::ggsave("./results/RAF1_contact_shell_decay all mutations.pdf", 
                     plot_raf1, device = grDevices::cairo_pdf, height = 2.5, width = 2.5)
-    plot_k13 <- multimodalallostery_plot_energy_distance_decay_expfit_contact_shell(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt", 
+    plot_k13 <- multimodalallostery_plot_energy_distance_decay_expfit_contact_shell(input = "./weights_Binding_K13.txt", 
                                                                 assay_sele = "K13", contact_shell = contact_shell)
     print(plot_k13)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K13_contact_shell_decay all mutations.pdf", 
+    ggplot2::ggsave("./results/K13_contact_shell_decay all mutations.pdf", 
                     plot_k13, device = grDevices::cairo_pdf, height = 2.5, width = 2.5)
   })
   invisible(result)
@@ -404,20 +385,20 @@ run_figure3_e()
 
 
 
-
+# ✅
 # ---- Figure3F ----
 run_figure3_f <- function() {
   result <- local({
-    contact_shell <- data.table::fread("C:/Users/36146/OneDrive - USTC/DryLab/Data_analysis_scripts/distance_contacts_analysis/5binder_contact_shell2.csv")
-    plot_raf1 <- multimodalallostery_plot_energy_distance_decay_expfit_directional_no_fdr(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt", 
+    contact_shell <- data.table::fread("./5binder_contact_shell2.csv")
+    plot_raf1 <- multimodalallostery_plot_energy_distance_decay_expfit_directional_no_fdr(input = "./weights_Binding_RAF.txt", 
                                                                       assay_sele = "RAF1", contact_shell = contact_shell, y_range = c(-1.5, 3))
     print(plot_raf1)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/RAF1_contact_shell_decay_directional_noFDR v2.pdf", 
+    ggplot2::ggsave("./results/RAF1_contact_shell_decay_directional_noFDR v2.pdf", 
                     plot_raf1, device = grDevices::cairo_pdf, height = 2.5, width = 2.5)
-    plot_k13 <- multimodalallostery_plot_energy_distance_decay_expfit_directional_no_fdr(input = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt", 
+    plot_k13 <- multimodalallostery_plot_energy_distance_decay_expfit_directional_no_fdr(input = "./weights_Binding_K13.txt", 
                                                                      assay_sele = "K13", contact_shell = contact_shell, y_range = c(-1.5, 3))
     print(plot_k13)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K13_contact_shell_decay_directional_noFDR v2.pdf", 
+    ggplot2::ggsave("./results/K13_contact_shell_decay_directional_noFDR v2.pdf", 
                     plot_k13, device = grDevices::cairo_pdf, height = 2.5, width = 2.5)
   })
   invisible(result)
@@ -428,7 +409,7 @@ run_figure3_f()
 
 
 
-
+# ✅
 # ---- Figure4B ----
 run_figure4_b <- function() {
   result <- local({
@@ -436,7 +417,7 @@ run_figure4_b <- function() {
                           `hot pink` = "#FF0066", `light blue` = "#75C2F6", `light red` = "#FF6A56", `dark red` = "#A31300", `dark green` = "#007A20", 
                           pink = "#FFB0A5")
     wt_aa <- "TEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHHYREQIKRVKDSEDVPMVLVGNKCDLPSRTVDTKQAQDLARSYGIPFIETSAKTRQGVDDAFYTLVREIRKHKEKMSKDGKKKKKKSKTKCVIM"
-    anno <- data.table::fread("C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_8.csv")
+    anno <- data.table::fread("./anno_final_for_5.csv")
     K13_all_allosteric_hotspots <- c(15, 145, 10, 21, 56, 130, 139, 142, 151, 155, 178)
     K19_all_allosteric_hotspots <- c(15, 145, 10, 151, 157, 184)
     RAF1_all_allosteric_hotspots <- c(15, 16, 17, 18, 28, 32, 34, 35, 57, 60, 145, 146, 6, 10, 20, 22, 54, 55, 58, 59, 77, 144, 
@@ -444,16 +425,16 @@ run_figure4_b <- function() {
     all_allosteric_sites <- unique(c(K13_all_allosteric_hotspots, K19_all_allosteric_hotspots, RAF1_all_allosteric_hotspots))
     all_allosteric_sites <- sort(all_allosteric_sites)
     allosteric_list <- list(K13 = K13_all_allosteric_hotspots, K19 = K19_all_allosteric_hotspots, RAF1 = RAF1_all_allosteric_hotspots)
-    p_triple <- multimodalallostery_plot_triple_dd_g_heatmap(ddG_K13 = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt", 
-                                         ddG_K19 = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K19.txt", 
-                                         ddG_RAF1 = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt", 
+    p_triple <- multimodalallostery_plot_triple_dd_g_heatmap(ddG_K13 = "./weights_Binding_K13.txt", 
+                                         ddG_K19 = "./weights_Binding_K19.txt", 
+                                         ddG_RAF1 = "./weights_Binding_RAF.txt", 
                                          anno = anno, wt_aa = wt_aa, colour_scheme = colour_scheme, allosteric_sites_list = allosteric_list, legend_limits = c(-1.3, 
                                                                                                                                                                3))
     print(p_triple)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/triple_allosteric_sites_heatmap2.pdf", 
+    ggplot2::ggsave("./results/triple_allosteric_sites_heatmap2.pdf", 
                     p_triple, width = 10, height = 8, device = grDevices::cairo_pdf)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/triple_allosteric_sites_heatmap.png", 
-                    p_triple, width = 12, height = 10, dpi = 300)
+    #ggplot2::ggsave("/triple_allosteric_sites_heatmap.png", 
+    #                p_triple, width = 12, height = 10, dpi = 300)
   })
   invisible(result)
 }
@@ -464,7 +445,7 @@ run_figure4_b()
 
 
 
-
+# ✅
 # ---- Figure5B ----
 run_figure5_b <- function() {
   result <- local({
@@ -478,9 +459,9 @@ run_figure5_b <- function() {
                                                                                                                                                          71), K13 = c(63, 68, 87, 88, 90, 91, 92, 94, 95, 96, 97, 98, 99, 101, 102, 105, 106, 107, 129, 133, 136, 137, 138), K19 = c(68, 
                                                                                                                                                                                                                                                                                      87, 88, 90, 91, 92, 94, 95, 97, 98, 99, 101, 102, 105, 107, 108, 125, 129, 133, 136, 137))
     NBP_RESIDUES <- c(12, 13, 14, 15, 16, 17, 18, 28, 29, 30, 32, 34, 35, 57, 60, 61, 116, 117, 119, 120, 145, 146, 147)
-    base_dir <- "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/"
-    anno_file <- "C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_8.csv"
-    output_dir <- "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/"
+    base_dir <- "./"
+    anno_file <- "./anno_final_for_8.csv"
+    output_dir <- "./results/"
     if (!dir.exists(output_dir)) {
       dir.create(output_dir, recursive = TRUE)
     }
@@ -525,7 +506,7 @@ run_figure5_b()
 
 
 
-
+# ✅
 # ---- Figure6B ----
 run_figure6_b <- function() {
   result <- local({
@@ -542,9 +523,9 @@ run_figure6_b <- function() {
     surface_residues <- c(1, 2, 3, 5, 12, 13, 25:39, 41, 43, 45, 47:50, 59:67, 69, 70, 73, 74, 76, 85:88, 91, 94, 95, 98, 102, 
                           104:108, 117, 119:124, 126:129, 131, 132, 135, 136, 138, 140, 147:150, 153, 154, 161, 164:188)
     alpha_helices <- c(15:24, 67:73, 87:104, 127:136, 148:166)
-    input_files <- list(RAF1 = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt", 
-                        K13 = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K13.txt")
-    anno <- "C:/Users/36146/OneDrive - USTC/DryLab/base_information_for_K13_K19_project/anno_final_for_8.csv"
+    input_files <- list(RAF1 = "./weights_Binding_RAF.txt", 
+                        K13 = "./weights_Binding_K13.txt")
+    anno <- "./anno_final_for_5.csv"
     structure_regions <- list(Core = core_residues, Surface = surface_residues, NBP = NBP, `Functional Loop` = functional_loop_residues, 
                               `Beta Sheets` = beta_sheets, `Alpha Helices` = alpha_helices)
     target_pair <- "RAF1 vs K13"
@@ -553,7 +534,7 @@ run_figure6_b <- function() {
     color_map <- c(Correlated = "#F4AD0C", `Anti-correlated` = "#1B38A6", Other = "grey80")
     p <- multimodalallostery_plot_region_enrichment(prepared_plot, color_map)
     print(p)
-    output_dir <- "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/"
+    output_dir <- "./results/"
     ggplot2::ggsave(paste0(output_dir, "barplot_RAF1_vs_K13_core_surface_nbp_fl_bsheet_ahelix_enrichment.pdf"), plot = p, width = 10, 
                     height = 6, device = grDevices::cairo_pdf)
     outputs <- multimodalallostery_format_region_enrichment_outputs(res)
@@ -573,37 +554,37 @@ run_figure6_b <- function() {
 run_figure6_b()
 
 
-
+# 
 # ---- FigureS1B ----
 run_figure_s1_b <- function() {
   result <- local({
     wt_aa <- "TEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHHYREQIKRVKDSEDVPMVLVGNKCDLPSRTVDTKQAQDLARSYGIPFIETSAKTRQGVDDAFYTLVREIRKHKEKMSKDGKKKKKKSKTKCVIM"
-    result_abundance <- multimodalallostery_compare_fitness_libraries_singlemut_overall_no_block1(lib1_block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_abundance_2_fitness_replicates_fullseq.RData", 
-                                                                              lib1_block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_abundance_3_fitness_replicates_fullseq.RData", 
-                                                                              lib2_block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/Abundance_block2_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
-                                                                              lib2_block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/Abundance_block3_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
-                                                                              wt_aa = wt_aa, output_file = "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/Comparison_of_fitness_data_Abundance_Overall_no_block1.pdf", 
+    result_abundance <- multimodalallostery_compare_fitness_libraries_singlemut_overall_no_block1(lib1_block2 = "./fitness_RData/CW_RAS_abundance_2_fitness_replicates_fullseq.RData", 
+                                                                              lib1_block3 = "./fitness_RData/CW_RAS_abundance_3_fitness_replicates_fullseq.RData", 
+                                                                              lib2_block2 = "./fitness_RData/MA_RAS_abundance_2_fitness_replicates_fullseq.RData", 
+                                                                              lib2_block3 = "./fitness_RData/MA_RAS_abundance_3_fitness_replicates_fullseq.RData", 
+                                                                              wt_aa = wt_aa, output_file = "./results/Comparison_of_fitness_data_Abundance_Overall_no_block1.pdf", 
                                                                               x_lab = "Abundance nicking library fitness", y_lab = "Abundance synthetic library fitness", main_title = "Comparison of fitness data between synthetic library and nicking library\nsingle mutation", 
                                                                               point_alpha = 0.3, plot_width = 5, plot_height = 5)
-    result_raf1 <- multimodalallostery_compare_fitness_libraries_singlemut_overall_no_block1(lib1_block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_RAF_2_fitness_replicates_fullseq.RData", 
-                                                                         lib1_block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_RAF_3_fitness_replicates_fullseq.RData", 
-                                                                         lib2_block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/RAF_block2_Q20_rbg_filter2_20250829_fitness_replicates.RData", 
-                                                                         lib2_block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/RAF_block3_Q20_rbg_filter2_20250829_fitness_replicates.RData", 
-                                                                         wt_aa = wt_aa, output_file = "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/Comparison_of_fitness_data_RAF1_Overall_no_block1.pdf", 
+    result_raf1 <- multimodalallostery_compare_fitness_libraries_singlemut_overall_no_block1(lib1_block2 = "./fitness_RData/CW_RAS_binding_RAF_2_fitness_replicates_fullseq.RData", 
+                                                                         lib1_block3 = "./fitness_RData/CW_RAS_binding_RAF_3_fitness_replicates_fullseq.RData", 
+                                                                         lib2_block2 = "./fitness_RData/MA_RAS_binding_RAF_2_fitness_replicates_fullseq.RData", 
+                                                                         lib2_block3 = "./fitness_RData/MA_RAS_binding_RAF_3_fitness_replicates_fullseq.RData", 
+                                                                         wt_aa = wt_aa, output_file = "./results/Comparison_of_fitness_data_RAF1_Overall_no_block1.pdf", 
                                                                          x_lab = "RAF1 nicking library fitness", y_lab = "RAF1 synthetic library fitness", main_title = "Comparison of fitness data between synthetic library and nicking library\nsingle mutation", 
                                                                          point_alpha = 0.3, plot_width = 5, plot_height = 5)
-    result_K55 <- multimodalallostery_compare_fitness_libraries_singlemut_overall_no_block1(lib1_block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_K55_2_fitness_replicates_fullseq.RData", 
-                                                                        lib1_block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_K55_3_fitness_replicates_fullseq.RData", 
-                                                                        lib2_block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K55_block2_Q20_rbg2_filter1_fitness_replicates.RData", 
-                                                                        lib2_block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K55_block3_Q20_rbg_1_filter1_fitness_replicates.RData", 
-                                                                        wt_aa = wt_aa, output_file = "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/Comparison_of_fitness_data_K55_Overall_no_block1.pdf", 
+    result_K55 <- multimodalallostery_compare_fitness_libraries_singlemut_overall_no_block1(lib1_block2 = "./fitness_RData/CW_RAS_binding_K55_2_fitness_replicates_fullseq.RData", 
+                                                                        lib1_block3 = "./fitness_RData/CW_RAS_binding_K55_3_fitness_replicates_fullseq.RData", 
+                                                                        lib2_block2 = "./fitness_RData/MA_RAS_binding_K55_2_fitness_replicates_fullseq.RData", 
+                                                                        lib2_block3 = "./fitness_RData/MA_RAS_binding_K55_3_fitness_replicates_fullseq.RData", 
+                                                                        wt_aa = wt_aa, output_file = "./results/Comparison_of_fitness_data_K55_Overall_no_block1.pdf", 
                                                                         x_lab = "K55 nicking library fitness", y_lab = "K55 synthetic library fitness", main_title = "Comparison of fitness data between synthetic library and nicking library\nsingle mutation", 
                                                                         point_alpha = 0.3, plot_width = 5, plot_height = 5)
-    result_K27 <- multimodalallostery_compare_fitness_libraries_singlemut_overall_no_block1(lib1_block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_K27_2_fitness_replicates_fullseq.RData", 
-                                                                        lib1_block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_K27_3_fitness_replicates_fullseq.RData", 
-                                                                        lib2_block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K27_block2_Q20_rbg3_filter1_fitness_replicates.RData", 
-                                                                        lib2_block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K27_block3_Q20_rbg3_filter1_fitness_replicates.RData", 
-                                                                        wt_aa = wt_aa, output_file = "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/Comparison_of_fitness_data_K27_Overall_no_block1.pdf", 
+    result_K27 <- multimodalallostery_compare_fitness_libraries_singlemut_overall_no_block1(lib1_block2 = "./fitness_RData/CW_RAS_binding_K27_2_fitness_replicates_fullseq.RData", 
+                                                                        lib1_block3 = "./fitness_RData/CW_RAS_binding_K27_3_fitness_replicates_fullseq.RData", 
+                                                                        lib2_block2 = "./fitness_RData/MA_RAS_binding_K27_2_fitness_replicates_fullseq.RData", 
+                                                                        lib2_block3 = "./fitness_RData/MA_RAS_binding_K27_3_fitness_replicates_fullseq.RData", 
+                                                                        wt_aa = wt_aa, output_file = "./results/Comparison_of_fitness_data_K27_Overall_no_block1.pdf", 
                                                                         x_lab = "K27 nicking library fitness", y_lab = "K27 synthetic library fitness", main_title = "Comparison of fitness data between synthetic library and nicking library\nsingle mutation", 
                                                                         point_alpha = 0.3, plot_width = 5, plot_height = 5)
   })
@@ -621,47 +602,47 @@ run_figure_s1_c <- function() {
     colour_scheme <- list(blue = "#1B38A6", red = "#F4270C", orange = "#F4AD0C", green = "#09B636", yellow = "#F1DD10", purple = "#C68EFD", 
                           `hot pink` = "#FF0066", `light blue` = "#75C2F6", `light red` = "#FF6A56", `dark red` = "#A31300", `dark green` = "#007A20", 
                           pink = "#FFB0A5")
-    K13_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K13_block1_Q20_rbg_filter2_20251109_fitness_replicates.RData", 
-                                                                         block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K13_block2_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
-                                                                         block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K13_block3_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData")
-    K19_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K19_block1_Q20_rbg_filter8_20251109_fitness_replicates_cleaned.RData", 
-                                                                         block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K19_block2_Q20_rbg_filter1_20251107_fitness_replicates_cleaned.RData", 
-                                                                         block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K19_block3_Q20_rbg_filter2_20250829_fitness_replicates.RData")
-    stability_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
-                                                                               block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/Abundance_block2_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
-                                                                               block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/Abundance_block3_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData")
-    RAF1_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_RAF_1_fitness_replicates_fullseq.RData", 
-                                                                          block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/RAF_block2_Q20_rbg_filter2_20250829_fitness_replicates.RData", 
-                                                                          block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/RAF_block3_Q20_rbg_filter2_20250829_fitness_replicates.RData")
-    K55_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_K55_1_fitness_replicates_fullseq.RData", 
-                                                                         block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K55_block2_Q20_rbg2_filter1_fitness_replicates.RData", 
-                                                                         block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K55_block3_Q20_rbg_1_filter1_fitness_replicates.RData")
-    K27_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_K27_1_fitness_replicates_fullseq.RData", 
-                                                                         block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K27_block2_Q20_rbg3_filter1_fitness_replicates.RData", 
-                                                                         block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K27_block3_Q20_rbg3_filter1_fitness_replicates.RData")
+    K13_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "./fitness_RData/MA_RAS_binding_K13_1_fitness_replicates_fullseq.RData", 
+                                                                         block2_dimsum_df = "./fitness_RData/MA_RAS_binding_K13_2_fitness_replicates_fullseq.RData", 
+                                                                         block3_dimsum_df = "./fitness_RData/MA_RAS_binding_K13_3_fitness_replicates_fullseq.RData")
+    K19_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "./fitness_RData/MA_RAS_binding_K19_1_fitness_replicates_fullseq.RData", 
+                                                                         block2_dimsum_df = "./fitness_RData/MA_RAS_binding_K19_2_fitness_replicates_fullseq.RData", 
+                                                                         block3_dimsum_df = "./fitness_RData/MA_RAS_binding_K19_3_fitness_replicates_fullseq.RData")
+    stability_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "./fitness_RData/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
+                                                                               block2_dimsum_df = "./fitness_RData/MA_RAS_abundance_2_fitness_replicates_fullseq.RData", 
+                                                                               block3_dimsum_df = "./fitness_RData/MA_RAS_abundance_3_fitness_replicates_fullseq.RData")
+    RAF1_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "./fitness_RData/CW_RAS_binding_RAF_1_fitness_replicates_fullseq.RData", 
+                                                                          block2_dimsum_df = "./fitness_RData/MA_RAS_binding_RAF_2_fitness_replicates_fullseq.RData", 
+                                                                          block3_dimsum_df = "./fitness_RData/MA_RAS_binding_RAF_3_fitness_replicates_fullseq.RData")
+    K55_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "./fitness_RData/CW_RAS_binding_K55_1_fitness_replicates_fullseq.RData", 
+                                                                         block2_dimsum_df = "./fitness_RData/MA_RAS_binding_K55_2_fitness_replicates_fullseq.RData", 
+                                                                         block3_dimsum_df = "./fitness_RData/MA_RAS_binding_K55_3_fitness_replicates_fullseq.RData")
+    K27_nor_df <- krasddpcams::krasddpcams__normalize_growthrate_fitness(block1_dimsum_df = "./fitness_RData/CW_RAS_binding_K27_1_fitness_replicates_fullseq.RData", 
+                                                                         block2_dimsum_df = "./fitness_RData/MA_RAS_binding_K27_2_fitness_replicates_fullseq.RData", 
+                                                                         block3_dimsum_df = "./fitness_RData/MA_RAS_binding_K27_3_fitness_replicates_fullseq.RData")
     d_K13 <- multimodalallostery_plot_fitness_correlation_blocks(K13_nor_df, "K13", colour_scheme)
     print(d_K13)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/figureS1a_fitness_correlation_blocks_K13.pdf", 
+    ggplot2::ggsave("./results/figureS1a_fitness_correlation_blocks_K13.pdf", 
                     d_K13, device = grDevices::cairo_pdf, height = 4, width = 4)
     d_K19 <- multimodalallostery_plot_fitness_correlation_blocks(K19_nor_df, "K19", colour_scheme)
     print(d_K19)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/figureS1a_fitness_correlation_blocks_K19.pdf", 
+    ggplot2::ggsave("./results/figureS1a_fitness_correlation_blocks_K19.pdf", 
                     d_K19, device = grDevices::cairo_pdf, height = 4, width = 4)
     d_stability <- multimodalallostery_plot_fitness_correlation_blocks(stability_nor_df, "stability", colour_scheme)
     print(d_stability)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/figureS1a_fitness_correlation_blocks_stability.pdf", 
+    ggplot2::ggsave("./results/figureS1a_fitness_correlation_blocks_stability.pdf", 
                     d_stability, device = grDevices::cairo_pdf, height = 4, width = 4)
     d_RAF1 <- multimodalallostery_plot_fitness_correlation_blocks(RAF1_nor_df, "RAF1", colour_scheme)
     print(d_RAF1)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/figureS1a_fitness_correlation_blocks_RAF1.pdf", 
+    ggplot2::ggsave("./results/figureS1a_fitness_correlation_blocks_RAF1.pdf", 
                     d_RAF1, device = grDevices::cairo_pdf, height = 4, width = 4)
     d_K55 <- multimodalallostery_plot_fitness_correlation_blocks(K55_nor_df, "K55", colour_scheme)
     print(d_K55)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/figureS1a_fitness_correlation_blocks_K55.pdf", 
+    ggplot2::ggsave("./results/figureS1a_fitness_correlation_blocks_K55.pdf", 
                     d_K55, device = grDevices::cairo_pdf, height = 4, width = 4)
     d_K27 <- multimodalallostery_plot_fitness_correlation_blocks(K27_nor_df, "K27", colour_scheme)
     print(d_K27)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/figureS1a_fitness_correlation_blocks_K27.pdf", 
+    ggplot2::ggsave("./results/figureS1a_fitness_correlation_blocks_K27.pdf", 
                     d_K27, device = grDevices::cairo_pdf, height = 4, width = 4)
   })
   invisible(result)
@@ -677,53 +658,53 @@ run_figure_s1_c()
 run_figure_s1_d <- function() {
   result <- local({
     wt_aa <- "TEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHHYREQIKRVKDSEDVPMVLVGNKCDLPSRTVDTKQAQDLARSYGIPFIETSAKTRQGVDDAFYTLVREIRKHKEKMSKDGKKKKKKSKTKCVIM"
-    nor_fit <- wlab.block::nor_fitness(block1 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
-                                       block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/Abundance_block2_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
-                                       block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/Abundance_block3_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData")
+    nor_fit <- wlab.block::nor_fitness(block1 = "./fitness_RData/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
+                                       block2 = "./fitness_RData/MA_RAS_abundance_2_fitness_replicates_fullseq.RData", 
+                                       block3 = "./fitness_RData/MA_RAS_abundance_3_fitness_replicates_fullseq.RData")
     nor_fit_single <- wlab.block::nor_fitness_single_mut(input = nor_fit)
     nor_fit_single <- wlab.block::pos_id(nor_fit_single, wt_aa)
     multimodalallostery_fitness_heatmap(nor_fit_single, wt_aa, title = "KRAS-Abundance", legend_limits = c(-2, 1.5))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-Abundance.pdf", 
+    ggplot2::ggsave("./results/KRAS-Abundance.pdf", 
                     height = 6, width = 20)
-    nor_fit <- wlab.block::nor_fitness(block1 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_RAF_1_fitness_replicates_fullseq.RData", 
-                                       block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/RAF_block2_Q20_rbg_filter2_20250829_fitness_replicates.RData", 
-                                       block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/RAF_block3_Q20_rbg_filter2_20250829_fitness_replicates.RData")
+    nor_fit <- wlab.block::nor_fitness(block1 = "./fitness_RData/CW_RAS_binding_RAF_1_fitness_replicates_fullseq.RData", 
+                                       block2 = "./fitness_RData/MA_RAS_binding_RAF_2_fitness_replicates_fullseq.RData", 
+                                       block3 = "./fitness_RData/MA_RAS_binding_RAF_3_fitness_replicates_fullseq.RData")
     nor_fit_single <- wlab.block::nor_fitness_single_mut(input = nor_fit)
     nor_fit_single <- wlab.block::pos_id(nor_fit_single, wt_aa)
     multimodalallostery_fitness_heatmap(nor_fit_single, wt_aa, title = "KRAS-RAF1", legend_limits = c(-2, 1.5))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-RAF1.pdf", height = 6, 
+    ggplot2::ggsave("./results/KRAS-RAF1.pdf", height = 6, 
                     width = 20)
-    nor_fit <- wlab.block::nor_fitness(block1 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K13_block1_Q20_rbg_filter2_20251109_fitness_replicates.RData", 
-                                       block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K13_block2_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
-                                       block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K13_block3_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData")
+    nor_fit <- wlab.block::nor_fitness(block1 = "./fitness_RData/MA_RAS_binding_K13_1_fitness_replicates_fullseq.RData", 
+                                       block2 = "./fitness_RData/MA_RAS_binding_K13_2_fitness_replicates_fullseq.RData", 
+                                       block3 = "./fitness_RData/MA_RAS_binding_K13_3_fitness_replicates_fullseq.RData")
     nor_fit_single <- wlab.block::nor_fitness_single_mut(input = nor_fit)
     nor_fit_single <- wlab.block::pos_id(nor_fit_single, wt_aa)
     multimodalallostery_fitness_heatmap(nor_fit_single, wt_aa, title = "KRAS-DARPin K13", legend_limits = c(-2, 1.5))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-DARPin K13.pdf", 
+    ggplot2::ggsave("./results/KRAS-DARPin K13.pdf", 
                     height = 6, width = 20)
-    nor_fit <- wlab.block::nor_fitness(block1 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K19_block1_Q20_rbg_filter8_20251109_fitness_replicates_cleaned.RData", 
-                                       block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K19_block2_Q20_rbg_filter1_20251107_fitness_replicates_cleaned.RData", 
-                                       block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K19_block3_Q20_rbg_filter2_20250829_fitness_replicates.RData")
+    nor_fit <- wlab.block::nor_fitness(block1 = "./fitness_RData/MA_RAS_binding_K19_1_fitness_replicates_fullseq.RData", 
+                                       block2 = "./fitness_RData/MA_RAS_binding_K19_2_fitness_replicates_fullseq.RData", 
+                                       block3 = "./fitness_RData/MA_RAS_binding_K19_3_fitness_replicates_fullseq.RData")
     nor_fit_single <- wlab.block::nor_fitness_single_mut(input = nor_fit)
     nor_fit_single <- wlab.block::pos_id(nor_fit_single, wt_aa)
     multimodalallostery_fitness_heatmap(nor_fit_single, wt_aa, title = "KRAS-DARPin K19", legend_limits = c(-2, 1.5))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-DARPin K19.pdf", 
+    ggplot2::ggsave("./results/KRAS-DARPin K19.pdf", 
                     height = 6, width = 20)
-    nor_fit <- wlab.block::nor_fitness(block1 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_K55_1_fitness_replicates_fullseq.RData", 
-                                       block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K55_block2_Q20_rbg2_filter1_fitness_replicates.RData", 
-                                       block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K55_block3_Q20_rbg_1_filter1_fitness_replicates.RData")
+    nor_fit <- wlab.block::nor_fitness(block1 = "./fitness_RData/CW_RAS_binding_K55_1_fitness_replicates_fullseq.RData", 
+                                       block2 = "./fitness_RData/MA_RAS_binding_K55_2_fitness_replicates_fullseq.RData", 
+                                       block3 = "./fitness_RData/MA_RAS_binding_K55_3_fitness_replicates_fullseq.RData")
     nor_fit_single <- wlab.block::nor_fitness_single_mut(input = nor_fit)
     nor_fit_single <- wlab.block::pos_id(nor_fit_single, wt_aa)
     multimodalallostery_fitness_heatmap(nor_fit_single, wt_aa, title = "KRAS-DARPin K55", legend_limits = c(-2, 1.5))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-DARPin K55.pdf", 
+    ggplot2::ggsave("./results/KRAS-DARPin K55.pdf", 
                     height = 6, width = 20)
-    nor_fit <- wlab.block::nor_fitness(block1 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_binding_K27_1_fitness_replicates_fullseq.RData", 
-                                       block2 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K27_block2_Q20_rbg3_filter1_fitness_replicates.RData", 
-                                       block3 = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K27_block3_Q20_rbg3_filter1_fitness_replicates.RData")
+    nor_fit <- wlab.block::nor_fitness(block1 = "./fitness_RData/CW_RAS_binding_K27_1_fitness_replicates_fullseq.RData", 
+                                       block2 = "./fitness_RData/MA_RAS_binding_K27_2_fitness_replicates_fullseq.RData", 
+                                       block3 = "./fitness_RData/MA_RAS_binding_K27_3_fitness_replicates_fullseq.RData")
     nor_fit_single <- wlab.block::nor_fitness_single_mut(input = nor_fit)
     nor_fit_single <- wlab.block::pos_id(nor_fit_single, wt_aa)
     multimodalallostery_fitness_heatmap(nor_fit_single, wt_aa, title = "KRAS-DARPin K27", legend_limits = c(-2, 1.5))
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/KRAS-DARPin K27.pdf", 
+    ggplot2::ggsave("./results/KRAS-DARPin K27.pdf", 
                     height = 6, width = 20)
   })
   invisible(result)
@@ -739,33 +720,33 @@ run_figure_s1_d()
 run_figure_s2_a <- function() {
   result <- local({
     wt_aa <- "TEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHHYREQIKRVKDSEDVPMVLVGNKCDLPSRTVDTKQAQDLARSYGIPFIETSAKTRQGVDDAFYTLVREIRKHKEKMSKDGKKKKKKSKTKCVIM"
-    Folding_pre_ob_fitness <- multimodalallostery_merge_ddgf_fitness_blocks(prediction = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/predictions/predicted_phenotypes_all.txt", 
-                                                        folding_ddG = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Folding.txt", 
-                                                        block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
-                                                        block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_abundance_2_fitness_replicates_fullseq.RData", 
-                                                        block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/Abundance_block2_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
-                                                        block4_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_abundance_3_fitness_replicates_fullseq.RData", 
-                                                        block5_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/Abundance_block2_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
+    Folding_pre_ob_fitness <- multimodalallostery_merge_ddgf_fitness_blocks(prediction = "./predicted_phenotypes_all.txt", 
+                                                        folding_ddG = "./weights_Folding.txt", 
+                                                        block1_dimsum_df = "./fitness_RData/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
+                                                        block2_dimsum_df = "./fitness_RData/CW_RAS_abundance_2_fitness_replicates_fullseq.RData", 
+                                                        block3_dimsum_df = "./fitness_RData/MA_RAS_abundance_2_fitness_replicates_fullseq.RData", 
+                                                        block4_dimsum_df = "./fitness_RData/CW_RAS_abundance_3_fitness_replicates_fullseq.RData", 
+                                                        block5_dimsum_df = "./fitness_RData/MA_RAS_abundance_3_fitness_replicates_fullseq.RData", 
                                                         wt_aa_input = wt_aa)
-    krasddpcams::krasddpcams__plot2d_ddGf_fitness(pre_nor = Folding_pre_ob_fitness, fold_n = 1, mochi_parameters = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/linears_weights_Abundance1.txt", 
+    krasddpcams::krasddpcams__plot2d_ddGf_fitness(pre_nor = Folding_pre_ob_fitness, fold_n = 1, mochi_parameters = "./linears_weights_Abundance1.txt", 
                                                   phenotypen = 1, RT = 0.001987 * (273 + 30), bin_input = 50)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/figureS1f1_block1_ddGf_fitness.pdf", 
+    ggplot2::ggsave("./results/figureS1f1_block1_ddGf_fitness.pdf", 
                     device = grDevices::cairo_pdf, height = 35, width = 60, units = "mm")
-    krasddpcams::krasddpcams__plot2d_ddGf_fitness(pre_nor = Folding_pre_ob_fitness, fold_n = 1, mochi_parameters = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/linears_weights_Abundance2_1.txt", 
+    krasddpcams::krasddpcams__plot2d_ddGf_fitness(pre_nor = Folding_pre_ob_fitness, fold_n = 1, mochi_parameters = "./linears_weights_Abundance2_1.txt", 
                                                   phenotypen = 2, RT = 0.001987 * (273 + 30), bin_input = 50)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/figureS1f2_block2_1_ddGf_fitness.pdf", 
+    ggplot2::ggsave("./results/figureS1f2_block2_1_ddGf_fitness.pdf", 
                     device = grDevices::cairo_pdf, height = 35, width = 60, units = "mm")
-    krasddpcams::krasddpcams__plot2d_ddGf_fitness(pre_nor = Folding_pre_ob_fitness, fold_n = 1, mochi_parameters = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/linears_weights_Abundance2_2.txt", 
+    krasddpcams::krasddpcams__plot2d_ddGf_fitness(pre_nor = Folding_pre_ob_fitness, fold_n = 1, mochi_parameters = "./linears_weights_Abundance2_2.txt", 
                                                   phenotypen = 3, RT = 0.001987 * (273 + 30), bin_input = 50)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/figureS1f3_block2_2_ddGf_fitness.pdf", 
+    ggplot2::ggsave("./results/figureS1f3_block2_2_ddGf_fitness.pdf", 
                     device = grDevices::cairo_pdf, height = 35, width = 60, units = "mm")
-    krasddpcams::krasddpcams__plot2d_ddGf_fitness(pre_nor = Folding_pre_ob_fitness, fold_n = 1, mochi_parameters = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/linears_weights_Abundance3_1.txt", 
+    krasddpcams::krasddpcams__plot2d_ddGf_fitness(pre_nor = Folding_pre_ob_fitness, fold_n = 1, mochi_parameters = "./linears_weights_Abundance3_1.txt", 
                                                   phenotypen = 4, RT = 0.001987 * (273 + 30), bin_input = 50)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/figureS1f3_block3_1_ddGf_fitness.pdf", 
+    ggplot2::ggsave("./results/figureS1f3_block3_1_ddGf_fitness.pdf", 
                     device = grDevices::cairo_pdf, height = 35, width = 60, units = "mm")
-    krasddpcams::krasddpcams__plot2d_ddGf_fitness(pre_nor = Folding_pre_ob_fitness, fold_n = 1, mochi_parameters = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/linears_weights_Abundance3_2.txt", 
+    krasddpcams::krasddpcams__plot2d_ddGf_fitness(pre_nor = Folding_pre_ob_fitness, fold_n = 1, mochi_parameters = "./linears_weights_Abundance3_2.txt", 
                                                   phenotypen = 5, RT = 0.001987 * (273 + 30), bin_input = 50)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/figureS1f3_block3_2_ddGf_fitness.pdf", 
+    ggplot2::ggsave("./results/figureS1f3_block3_2_ddGf_fitness.pdf", 
                     device = grDevices::cairo_pdf, height = 35, width = 60, units = "mm")
   })
   invisible(result)
@@ -781,28 +762,28 @@ run_figure_s2_a()
 run_figure_s2_b <- function() {
   result <- local({
     wt_aa <- "TEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHHYREQIKRVKDSEDVPMVLVGNKCDLPSRTVDTKQAQDLARSYGIPFIETSAKTRQGVDDAFYTLVREIRKHKEKMSKDGKKKKKKSKTKCVIM"
-    abundance_fitness_data <- multimodalallostery_merge_ddgf_fitness_blocks(prediction = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/predictions/predicted_phenotypes_all.txt", 
-                                                        folding_ddG = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Folding.txt", 
-                                                        block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
-                                                        block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_abundance_2_fitness_replicates_fullseq.RData", 
-                                                        block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/Abundance_block2_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
-                                                        block4_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/CW_RAS_abundance_3_fitness_replicates_fullseq.RData", 
-                                                        block5_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/Abundance_block3_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
-                                                        wt_aa_input = wt_aa)
+    abundance_fitness_data <- multimodalallostery_merge_ddgf_fitness_blocks(prediction = "./predicted_phenotypes_all.txt", 
+                                                                            folding_ddG = "./weights_Folding.txt", 
+                                                                            block1_dimsum_df = "./fitness_RData/CW_RAS_abundance_1_fitness_replicates_fullseq.RData", 
+                                                                            block2_dimsum_df = "./fitness_RData/CW_RAS_abundance_2_fitness_replicates_fullseq.RData", 
+                                                                            block3_dimsum_df = "./fitness_RData/MA_RAS_abundance_2_fitness_replicates_fullseq.RData", 
+                                                                            block4_dimsum_df = "./fitness_RData/CW_RAS_abundance_3_fitness_replicates_fullseq.RData", 
+                                                                            block5_dimsum_df = "./fitness_RData/MA_RAS_abundance_3_fitness_replicates_fullseq.RData", 
+                                                                            wt_aa_input = wt_aa)
     multimodalallostery_plot_ddg_fitness_per_block(pre_nor = abundance_fitness_data, phenotypen = 1, rotate_x_axis = TRUE)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/abundance_block1_evaluation_fitness_pre_vs_ob.pdf", 
+    ggplot2::ggsave("./results/abundance_block1_evaluation_fitness_pre_vs_ob.pdf", 
                     device = grDevices::cairo_pdf, height = 45, width = 60, units = "mm")
     multimodalallostery_plot_ddg_fitness_per_block(pre_nor = abundance_fitness_data, phenotypen = 2, rotate_x_axis = TRUE)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/abundance_block2_1_evaluation_fitness_pre_vs_ob.pdf", 
+    ggplot2::ggsave("./results/abundance_block2_1_evaluation_fitness_pre_vs_ob.pdf", 
                     device = grDevices::cairo_pdf, height = 45, width = 60, units = "mm")
     multimodalallostery_plot_ddg_fitness_per_block(pre_nor = abundance_fitness_data, phenotypen = 3, rotate_x_axis = TRUE)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/abundance_block2_2_evaluation_fitness_pre_vs_ob.pdf", 
+    ggplot2::ggsave("./results/abundance_block2_2_evaluation_fitness_pre_vs_ob.pdf", 
                     device = grDevices::cairo_pdf, height = 45, width = 60, units = "mm")
     multimodalallostery_plot_ddg_fitness_per_block(pre_nor = abundance_fitness_data, phenotypen = 4, rotate_x_axis = TRUE)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/abundance_block3_1_evaluation_fitness_pre_vs_ob.pdf", 
+    ggplot2::ggsave("./results/abundance_block3_1_evaluation_fitness_pre_vs_ob.pdf", 
                     device = grDevices::cairo_pdf, height = 45, width = 60, units = "mm")
     multimodalallostery_plot_ddg_fitness_per_block(pre_nor = abundance_fitness_data, phenotypen = 5, rotate_x_axis = TRUE)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/abundance_block3_2_evaluation_fitness_pre_vs_ob.pdf", 
+    ggplot2::ggsave("./results/abundance_block3_2_evaluation_fitness_pre_vs_ob.pdf", 
                     device = grDevices::cairo_pdf, height = 45, width = 60, units = "mm")
   })
   invisible(result)
@@ -817,19 +798,19 @@ run_figure_s2_b()
 run_figure_s2_c <- function() {
   result <- local({
     wt_aa <- "TEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHHYREQIKRVKDSEDVPMVLVGNKCDLPSRTVDTKQAQDLARSYGIPFIETSAKTRQGVDDAFYTLVREIRKHKEKMSKDGKKKKKKSKTKCVIM"
-    K13_pre_ob_fitness <- multimodalallostery_k13_19_get_ob_pre_fitness_binding_correlation_3blocks(prediction = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/predictions/predicted_phenotypes_all.txt", 
-                                                                                block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K13_block1_Q20_rbg_filter2_20251109_fitness_replicates.RData", 
-                                                                                block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K13_block2_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
-                                                                                block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K13_block3_Q20_rbg_filter2_20250829_fitness_replicates_cleaned.RData", 
+    K13_pre_ob_fitness <- multimodalallostery_k13_19_get_ob_pre_fitness_binding_correlation_3blocks(prediction = "./predicted_phenotypes_all.txt", 
+                                                                                block1_dimsum_df = "./fitness_RData/MA_RAS_binding_K13_1_fitness_replicates_fullseq.RData", 
+                                                                                block2_dimsum_df = "./fitness_RData/MA_RAS_binding_K13_2_fitness_replicates_fullseq.RData", 
+                                                                                block3_dimsum_df = "./fitness_RData/MA_RAS_binding_K13_3_fitness_replicates_fullseq.RData", 
                                                                                 assay_sele = "K13", wt_aa_input = wt_aa)
     multimodalallostery_plot_ddg_fitness_per_block(pre_nor = K13_pre_ob_fitness, phenotypen = 6, rotate_x_axis = TRUE)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K13_fitness_pre_vs_ob_block1.pdf", 
+    ggplot2::ggsave("./results/K13_fitness_pre_vs_ob_block1.pdf", 
                     device = grDevices::cairo_pdf, height = 45, width = 60, units = "mm")
     multimodalallostery_plot_ddg_fitness_per_block(pre_nor = K13_pre_ob_fitness, phenotypen = 7, rotate_x_axis = TRUE)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K13_fitness_pre_vs_ob_block2.pdf", 
+    ggplot2::ggsave("./results/K13_fitness_pre_vs_ob_block2.pdf", 
                     device = grDevices::cairo_pdf, height = 45, width = 60, units = "mm")
     multimodalallostery_plot_ddg_fitness_per_block(pre_nor = K13_pre_ob_fitness, phenotypen = 8, rotate_x_axis = TRUE)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K13_fitness_pre_vs_ob_block3.pdf", 
+    ggplot2::ggsave("./results/K13_fitness_pre_vs_ob_block3.pdf", 
                     device = grDevices::cairo_pdf, height = 45, width = 60, units = "mm")
   })
   invisible(result)
@@ -843,19 +824,19 @@ run_figure_s2_c()
 run_figure_s2_d <- function() {
   result <- local({
     wt_aa <- "TEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHHYREQIKRVKDSEDVPMVLVGNKCDLPSRTVDTKQAQDLARSYGIPFIETSAKTRQGVDDAFYTLVREIRKHKEKMSKDGKKKKKKSKTKCVIM"
-    K19_pre_ob_fitness <- multimodalallostery_k13_19_get_ob_pre_fitness_binding_correlation_3blocks(prediction = "C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/predictions/predicted_phenotypes_all.txt", 
-                                                                                block1_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K19_block1_Q20_rbg_filter8_20251109_fitness_replicates_cleaned.RData", 
-                                                                                block2_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K19_block2_Q20_rbg_filter1_20251107_fitness_replicates_cleaned.RData", 
-                                                                                block3_dimsum_df = "C:/Users/36146/OneDrive - USTC/DryLab/fitness RData/K19_block3_Q20_rbg_filter2_20250829_fitness_replicates.RData", 
+    K19_pre_ob_fitness <- multimodalallostery_k13_19_get_ob_pre_fitness_binding_correlation_3blocks(prediction = "./predicted_phenotypes_all.txt", 
+                                                                                                    block1_dimsum_df = "./fitness_RData/MA_RAS_binding_K19_1_fitness_replicates_fullseq.RData", 
+                                                                                                    block2_dimsum_df = "./fitness_RData/MA_RAS_binding_K19_2_fitness_replicates_fullseq.RData", 
+                                                                                                    block3_dimsum_df = "./fitness_RData/MA_RAS_binding_K19_3_fitness_replicates_fullseq.RData", 
                                                                                 assay_sele = "K19", wt_aa_input = wt_aa)
     multimodalallostery_plot_ddg_fitness_per_block(pre_nor = K19_pre_ob_fitness, phenotypen = 9, rotate_x_axis = TRUE)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K19_fitness_pre_vs_ob_block1.pdf", 
+    ggplot2::ggsave("./results/K19_fitness_pre_vs_ob_block1.pdf", 
                     device = grDevices::cairo_pdf, height = 45, width = 60, units = "mm")
     multimodalallostery_plot_ddg_fitness_per_block(pre_nor = K19_pre_ob_fitness, phenotypen = 10, rotate_x_axis = TRUE)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K19_fitness_pre_vs_ob_block2.pdf", 
+    ggplot2::ggsave("./results/K19_fitness_pre_vs_ob_block2.pdf", 
                     device = grDevices::cairo_pdf, height = 45, width = 60, units = "mm")
     multimodalallostery_plot_ddg_fitness_per_block(pre_nor = K19_pre_ob_fitness, phenotypen = 11, rotate_x_axis = TRUE)
-    ggplot2::ggsave("C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/K19_fitness_pre_vs_ob_block3.pdf", 
+    ggplot2::ggsave("./results/K19_fitness_pre_vs_ob_block3.pdf", 
                     device = grDevices::cairo_pdf, height = 45, width = 60, units = "mm")
   })
   invisible(result)
@@ -869,34 +850,34 @@ run_figure_s2_d()
 # ---- FigureS2F ----
 run_figure_s2_f <- function() {
   result <- local({
-    ddG_folding_new <- data.table::fread("C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Folding.txt")
+    ddG_folding_new <- data.table::fread("./weights_Folding.txt")
     ddG_folding_new <- ddG_folding_new[, c(1, 3, 20:22)]
-    ddG_folding_weng <- data.table::fread("C:/Users/36146/OneDrive - USTC/DryLab/MoCHI/Results/Data/energy_article_data/weights_Folding.txt")
+    ddG_folding_weng <- data.table::fread("./weights_Folding_weng.txt")
     ddG_folding_weng <- ddG_folding_weng[, c(1, 3, 20:22)]
     data1 = ddG_folding_new
     data2 = ddG_folding_weng
     correlation_plot <- multimodalallostery_plot_dd_g_correlation(data1 = ddG_folding_new, data2 = ddG_folding_weng, data1_name = "Folding_this study", 
-                                              data2_name = "Folding_Weng", output_file = "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/ddG correlation between folding_new and folding_weng test2.pdf", 
+                                              data2_name = "Folding_Weng", output_file = "./results/ddG correlation between folding_new and folding_weng test2.pdf", 
                                               limits = c(-1.6, 2.8))
     print(correlation_plot)
-    ddG_RAF1_new <- data.table::fread("C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_RAF.txt")
+    ddG_RAF1_new <- data.table::fread("./weights_Binding_RAF.txt")
     ddG_RAF1_new <- ddG_RAF1_new[, c(1, 3, 20:22)]
-    ddG_RAF1_weng <- data.table::fread("C:/Users/36146/OneDrive - USTC/DryLab/MoCHI/Results/Data/energy_article_data/weights_Binding_RAF.txt")
+    ddG_RAF1_weng <- data.table::fread("./weights_Binding_RAF_weng.txt")
     ddG_RAF1_weng <- ddG_RAF1_weng[, c(1, 3, 20:22)]
     data1 = ddG_RAF1_new
     data2 = ddG_RAF1_weng
     correlation_plot <- multimodalallostery_plot_dd_g_correlation(data1 = ddG_RAF1_new, data2 = ddG_RAF1_weng, data1_name = "RAF1_this study", data2_name = "RAF1_Weng", 
-                                              output_file = "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/ddG correlation between RAF1_new and folding_weng test.pdf", 
+                                              output_file = "./results/ddG correlation between RAF1_new and folding_weng test.pdf", 
                                               limits = c(-1.6, 2.8))
     print(correlation_plot)
-    ddG_K55_new <- data.table::fread("C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K55.txt")
+    ddG_K55_new <- data.table::fread("./weights_Binding_K55.txt")
     ddG_K55_new <- ddG_K55_new[, c(1, 3, 20:22)]
-    ddG_K55_weng <- data.table::fread("C:/Users/36146/OneDrive - USTC/DryLab/MoCHI/Results/Data/energy_article_data/weights_Binding_K55.txt")
+    ddG_K55_weng <- data.table::fread("./weights_Binding_K55_weng.txt")
     ddG_K55_weng <- ddG_K55_weng[, c(1, 3, 20:22)]
     data1 = ddG_K55_new
     data2 = ddG_K55_weng
     correlation_plot <- multimodalallostery_plot_dd_g_correlation(data1 = ddG_K55_new, data2 = ddG_K55_weng, data1_name = "K55_this study", data2_name = "K55_Weng", 
-                                              output_file = "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/test_20260810/ddG correlation between K55_new and folding_weng test.pdf", 
+                                              output_file = "./results/ddG correlation between K55_new and folding_weng test.pdf", 
                                               limits = c(-1.6, 2.8))
     print(correlation_plot)
     ddG_K27_new <- data.table::fread("C:/Users/36146/OneDrive - USTC/DryLab/MoCHI_8binders_l2_e6_RA_old_new_merge_at_mochi_20260104_lr_0.025_2048/task_901/weights/weights_Binding_K27.txt")
