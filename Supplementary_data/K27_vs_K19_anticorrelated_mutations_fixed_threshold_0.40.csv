@@ -1,0 +1,2 @@
+mutation,position,direction,classification,ddG_X,ddG_X_std,ddG_Y,ddG_Y_std,is_NBP,p_value_X,p_value_Y,adj_p_value_X,adj_p_value_Y
+E37P,37,Disrupting in K27 / Promoting in K19,Disrupting in X / Promoting in Y,0.8074408,0.0853994,-1.1449175,0.13578004,FALSE,1.83310741684561e-06,4.10654049017208e-08,5.63555318424775e-06,1.61336569816398e-07
