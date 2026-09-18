@@ -1,0 +1,16 @@
+Package: multimodalallostery
+Type: Package
+Title: Current Multimodal Allostery Analysis and Plotting
+Version: 0.2.1
+Authors@R: person('Multimodal-allostery', 'Contributors', role = c('aut', 'cre'), email = 'maintainer@example.org')
+Description: Reusable mutation processing, fixed-threshold classification,
+    enrichment, structural annotation and plotting functions extracted from
+    the September 2026 workflows with continuity of the existing public API.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Imports: beeswarm, GGally, data.table, dplyr, ggVennDiagram, ggplot2, ggpubr, ggrepel, grDevices, graphics, grid, krasddpcams, patchwork, pheatmap, rlang, scales, stats, tidyr, utils, wesanderson, wlab.block
+Suggests: testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Remotes: lehner-lab/krasddpcams, cheding/wlab.block
+RoxygenNote: 7.3.3
