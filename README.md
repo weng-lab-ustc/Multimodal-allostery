@@ -13,7 +13,7 @@ allosteric regulation.
 
 This repository contains:
 - Fitness scores, inferred free energy changes and required miscellaneous files in the [Supplementary_data] directory 
-- Structural movie supplementary files 
+- Structural movie supplementary files https://drive.google.com/drive/folders/15Yo7jXR0REYTcOFQUstYPGnHiNBJPwVX
 - Script for reproducing figures in the manuscript
 
 
