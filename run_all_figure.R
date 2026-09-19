@@ -8,23 +8,28 @@ library(krasddpcams)
 library(data.table)
 library(wlab.block)
 
-
-#pkgload::load_all(
-#  "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/multimodalallostery20260915"
+#options(timeout = 600)
+#remotes::install_github(
+#  "weng-lab-ustc/Multimodal-allostery",
+#  dependencies = TRUE
 #)
 
 
+library(multimodalallostery)
+
+setwd("~/Library/CloudStorage/OneDrive-个人/文档/Script/multimodalallostery/")
+
+
 # ---- Configuration: edit paths here when data move --------------------------
-PACKAGE_DIR <- "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/multimodalallostery20260918"
-WEIGHTS_DIR <- "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/Multimodal-allostery-main-download from github-202608/Multimodal-allostery-main/Supplementary_data/"
-PREDICTIONS_FILE <- "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/Multimodal-allostery-main-download from github-202608/Multimodal-allostery-main/Supplementary_data/predicted_phenotypes_all.txt"
-ANNOTATION_5 <- "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/Multimodal-allostery-main-download from github-202608/Multimodal-allostery-main/Supplementary_data/anno_final_for_5.csv"
-ANNOTATION_8 <- "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/Multimodal-allostery-main-download from github-202608/Multimodal-allostery-main/Supplementary_data/anno_final_for_8.csv"
-CONTACT_SHELL <- "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/Multimodal-allostery-main-download from github-202608/Multimodal-allostery-main/Supplementary_data/5binder_contact_shell2.csv"
-FITNESS_DIR <- "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/Multimodal-allostery-main-download from github-202608/Multimodal-allostery-main/Supplementary_data/fitness_RData/"
-FITNESS_MERGE_DIR <- "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/Multimodal-allostery-main-download from github-202608/Multimodal-allostery-main/Supplementary_data/fitness_RData_merge_version/"
-MANUSCRIPT_FIGURE_DIR <- "C:/Users/36146/西木_Nice/OneDrive/文档/Script/Multimodal-allostery/Multimodal-allostery-main-download from github-202608/Multimodal-allostery-main/Supplementary_data/"
-OUTPUT_DIR <- "C:/Users/36146/OneDrive - USTC/Manuscripts/K13_K19/figures/20260521_start_Updating/multimodalallostery20260918_results"
+WEIGHTS_DIR <- "./Files for plot of multimodalallostery/Energy data/"
+PREDICTIONS_FILE <- "./Files for plot of multimodalallostery/Energy data/predicted_phenotypes_all.txt"
+ANNOTATION_5 <- "./Files for plot of multimodalallostery/anno_final_for_5.csv"
+ANNOTATION_8 <- "./Files for plot of multimodalallostery/anno_final_for_8.csv"
+CONTACT_SHELL <- "./Files for plot of multimodalallostery/5binder_contact_shell2.csv"
+FITNESS_DIR <- "./Files for plot of multimodalallostery/fitness_RData/"
+FITNESS_MERGE_DIR <- "./Files for plot of multimodalallostery/fitness_RData_merge_version/"
+MANUSCRIPT_FIGURE_DIR <- "./Files for plot of multimodalallostery/"
+OUTPUT_DIR <- "./Files for plot of multimodalallostery/multimodalallostery_results2"
 
 
 # Set to NULL to run all 33 panels in order, or to a subset such as
@@ -35,21 +40,6 @@ OVERWRITE_OUTPUTS <- FALSE
 # Ensure Chinese path names work when Rscript inherits a non-Windows locale.
 invisible(Sys.setlocale("LC_CTYPE", ".UTF-8"))
 
-if (!file.exists(file.path(PACKAGE_DIR, "DESCRIPTION"))) {
-  stop("Formal package directory is missing: ", PACKAGE_DIR)
-}
-description <- read.dcf(file.path(PACKAGE_DIR, "DESCRIPTION"))
-if (!identical(unname(description[1, "Package"]), "multimodalallostery")) {
-  stop("DESCRIPTION must contain 'Package: multimodalallostery': ", PACKAGE_DIR)
-}
-if (!requireNamespace("pkgload", quietly = TRUE)) {
-  stop("Package 'pkgload' is required to load the formal package directory: ", PACKAGE_DIR)
-}
-pkgload::load_all(PACKAGE_DIR, quiet = TRUE)
-#suppressPackageStartupMessages(library(multimodalallostery))
-
-message("Package directory: ", PACKAGE_DIR)
-message("Package name: multimodalallostery")
 message("Weights input: ", WEIGHTS_DIR)
 message("Fitness input: ", FITNESS_DIR)
 message("Fitness merge input: ", FITNESS_MERGE_DIR)
