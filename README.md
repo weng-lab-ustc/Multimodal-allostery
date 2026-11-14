@@ -62,14 +62,16 @@ These files are used to generate the K13 and K19 binding-interface analyses in F
 
 ### Software
 
-The analysis was tested in the following environment:
+## 4. System requirements
+
+The software and computational environment used in this study are listed below.
 
 | Component | Version / Environment |
-|---|---|
-| R | 4.6.1 |
+| :--- | :--- |
+| R | [4.6.1](https://www.r-project.org/) |
 | Operating systems | Windows and macOS |
-| DiMSum | 1.2.9 |
-| MoCHI | 0.9 |
+| DiMSum | [1.2.9](https://github.com/lehner-lab/DiMSum/releases/tag/v1.2.9) |
+| MoCHI | [0.9](https://github.com/lehner-lab/MoCHI/releases/tag/v0.9) |
 
 The package and figure-generation scripts are written in R.
 
