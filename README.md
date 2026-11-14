@@ -12,7 +12,6 @@ The resources include:
 
 - An R package (`multimodalallostery`) containing functions for data analysis and visualization.
 - Analysis scripts used to generate the manuscript figures.
-- Supplementary datasets used in the analyses.
 - Instructions for installing the software and reproducing selected analyses.
 
 The analysis workflow integrates deep mutational scanning data, quantitative protein–protein interaction measurements, and computational modeling to characterize the allosteric landscape of KRAS.
@@ -25,14 +24,14 @@ The GitHub repository is organized as follows:
 Multimodal-allostery/
 ├── R/                       # R functions for data analysis and visualization
 ├── man/                     # R package documentation
-├── Supplementary_data/      # Supplementary datasets
+├── Supplementary_data/      # Supplementary scripts for DiMSum and MoCHI
 ├── DESCRIPTION              # R package metadata and dependencies
 ├── NAMESPACE                # Exported functions and imports
 ├── LICENSE                  # MIT License
 └── README.md                # Project documentation
 ```
 
-The main figure-generation script, `run_all_figure.R`, and additional analysis scripts are provided separately through Google Drive (see Section 3).
+The main figure-generation script, `run_all_figure.R`.
 
 The `multimodalallostery` R package provides reusable functions for the analyses, while the external analysis scripts contain the procedures used to process data and generate the manuscript figures.
 
@@ -42,17 +41,15 @@ The data and analysis resources are distributed across the following locations.
 
 ### 3.1. GitHub repository
 
-The R package and supplementary data are available in this repository:
+The R package and supplementary script are available in this repository:
 
 [Multimodal-allostery on GitHub](https://github.com/weng-lab-ustc/Multimodal-allostery)
 
-### 3.2. Analysis scripts and processed data
+### 3.2. Analysis data
 
-The main figure-generation script (`run_all_figure.R`), additional analysis scripts, and processed data used to generate the manuscript figures are available through Google Drive:
+The analysis data used to generate the manuscript figures are available through Google Drive:
 
 [Analysis scripts and processed data](https://drive.google.com/drive/folders/15Yo7jXR0REYTcOFQUstYPGnHiNBJPwVX)
-
-Access to this folder may require permission from the file owner. Reviewers and other users who need access to these resources can request permission through the corresponding author.
 
 ### 3.3. Input files for Figure 2a
 
@@ -65,13 +62,11 @@ These files are available in the following Google Drive folder:
 
 [Figure 2a input files](https://drive.google.com/drive/folders/1jb5x-AuQng7ncpXCuwVc-eIMF2TDpxBC)
 
-Access may require permission from the file owner.
+### 3.4. Supplementary script
 
-### 3.4. Supplementary data
+Supplementary script for dimsum and mochi are included in the `Supplementary_script` directory of this repository:
 
-Supplementary datasets are included in the `Supplementary_data` directory of this repository:
-
-[Supplementary_data](https://github.com/weng-lab-ustc/Multimodal-allostery/tree/main/Supplementary_data)
+[Supplementary_data](https://github.com/weng-lab-ustc/Multimodal-allostery/tree/main/Supplementary_script)
 
 ## 4. System requirements
 
