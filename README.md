@@ -24,7 +24,7 @@ The GitHub repository is organized as follows:
 Multimodal-allostery/
 ├── R/                       # R functions for data analysis and visualization
 ├── man/                     # R package documentation
-├── Supplementary_data/      # Supplementary scripts for DiMSum and MoCHI
+├── Supplementary_script/    # Supplementary scripts for DiMSum and MoCHI
 ├── DESCRIPTION              # R package metadata and dependencies
 ├── NAMESPACE                # Exported functions and imports
 ├── LICENSE                  # MIT License
