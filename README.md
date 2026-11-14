@@ -49,7 +49,7 @@ The R package and supplementary script are available in this repository:
 
 The analysis data used to generate the manuscript figures are available through Google Drive:
 
-[Analysis scripts and processed data](https://drive.google.com/drive/folders/15Yo7jXR0REYTcOFQUstYPGnHiNBJPwVX)
+[Analysis data](https://drive.google.com/drive/folders/15Yo7jXR0REYTcOFQUstYPGnHiNBJPwVX)
 
 ### 3.3. Input files for Figure 2a
 
@@ -64,9 +64,9 @@ These files are available in the following Google Drive folder:
 
 ### 3.4. Supplementary script
 
-Supplementary script for dimsum and mochi are included in the `Supplementary_script` directory of this repository:
+Supplementary script for DiMSum and MoCHI are included in the `Supplementary_script` directory of this repository:
 
-[Supplementary_data](https://github.com/weng-lab-ustc/Multimodal-allostery/tree/main/Supplementary_script)
+[Supplementary_script](https://github.com/weng-lab-ustc/Multimodal-allostery/tree/main/Supplementary_script)
 
 ## 4. System requirements
 
@@ -141,7 +141,7 @@ Place the downloaded files in the corresponding input directory used by the anal
 
 ### 6.2. Obtain the analysis script
 
-Download `run_all_figure.R` from the [analysis scripts and processed data folder](https://drive.google.com/drive/folders/15Yo7jXR0REYTcOFQUstYPGnHiNBJPwVX).
+Download `run_all_figure.R` from the [R](https://github.com/weng-lab-ustc/Multimodal-allostery/).
 
 Configure the working directory and file paths in the script to match the local locations of the downloaded files and other required resources.
 
@@ -190,7 +190,7 @@ Documentation for individual functions can be accessed using:
 ?function_name
 ```
 
-The analysis scripts and associated datasets provided in this repository and through Google Drive can be used as starting points for reproducing the analyses presented in the manuscript.
+The associated datasets provided in this repository and through Google Drive can be used for reproducing the analyses presented in the manuscript.
 
 Users interested in applying the analysis framework to their own datasets should refer to the function documentation and corresponding analysis scripts for information about input data formats and analysis procedures.
 
@@ -202,12 +202,10 @@ The following resources should be used together:
 
 - **R package:** functions for data analysis and visualization.
 - **Analysis scripts:** procedures for processing data and generating manuscript figures.
-- **Supplementary data:** supplementary datasets included in the GitHub repository.
-- **Processed data and additional scripts:** available through Google Drive.
+- **Analysis data:** available through Google Drive.
 
 For reproduction of the complete manuscript analyses, download the relevant scripts and their corresponding input and intermediate datasets from the provided locations. Configure the local file paths in the analysis scripts before execution.
 
-Access to the Google Drive resources may require permission from the file owner. Reviewers and other users who need these resources can request access through the corresponding author.
 
 The Figure 2a demonstration described above provides a relatively small example for testing the installation and basic functionality of the software.
 
@@ -217,9 +215,7 @@ Raw sequencing data have been deposited in the European Nucleotide Archive (ENA)
 
 The data are currently under restricted access and are scheduled for public release on January 1, 2027. Access for editorial assessment can be arranged through the corresponding author.
 
-Additional analysis scripts and processed data used in this study are available through [Google Drive](https://drive.google.com/drive/folders/15Yo7jXR0REYTcOFQUstYPGnHiNBJPwVX). Access may require permission from the file owner.
-
-Supplementary datasets are available in the `Supplementary_data` directory of this GitHub repository.
+Analysis data used in this study are available through [Google Drive](https://drive.google.com/drive/folders/15Yo7jXR0REYTcOFQUstYPGnHiNBJPwVX). 
 
 ## 10. License
 
@@ -237,7 +233,7 @@ The full citation and DOI will be added following publication.
 
 For questions about the software, analysis scripts, or datasets, please contact:
 
-**Weng Lab**  
+**Chenchun Weng**  
 School of Life Sciences  
 University of Science and Technology of China (USTC)  
 Hefei, China
