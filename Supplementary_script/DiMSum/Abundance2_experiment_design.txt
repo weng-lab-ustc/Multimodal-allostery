@@ -1,0 +1,7 @@
+sample_name	experiment_replicate	selection_id	selection_replicate	technical_replicate	pair1	pair2	generations	cell_density	selection_time
+Abundance2input1	1	0		1	JZ25018431-BTCS0538-DC13_combined_R1.fastq.gz	JZ25018431-BTCS0538-DC13_combined_R2.fastq.gz		0.05	
+Abundance2input2	2	0		1	JZ25018432-BTCS0539-DC14_combined_R1.fastq.gz	JZ25018432-BTCS0539-DC14_combined_R2.fastq.gz		0.05	
+Abundance2input3	3	0		1	JZ25018434-BTCS0541-DC16_combined_R1.fastq.gz	JZ25018434-BTCS0541-DC16_combined_R2.fastq.gz		0.05	
+Abundance2output1	1	1	1	1	JZ25018433-BTCS0540-DC15_combined_R1.fastq.gz	JZ25018433-BTCS0540-DC15_combined_R2.fastq.gz	5.185866545	1.82	38.25
+Abundance2output2	2	1	1	1	JZ25018435-BTCS0542-DC17_combined_R1.fastq.gz	JZ25018435-BTCS0542-DC17_combined_R2.fastq.gz	5.161887682	1.79	38.25
+Abundance2output3	3	1	1	1	JZ25018436-BTCS0543-DC18_combined_R1.fastq.gz	JZ25018436-BTCS0543-DC18_combined_R2.fastq.gz	5.205548911	1.845	38.25
