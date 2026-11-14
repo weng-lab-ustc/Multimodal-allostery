@@ -49,7 +49,6 @@ The following resources are provided:
 | GitHub repository | R package, source code, and supplementary data | [GitHub](https://github.com/weng-lab-ustc/Multimodal-allostery) |
 | Figure scripts and processed data | Scripts and processed datasets used for manuscript figures | [Google Drive](https://drive.google.com/drive/folders/15Yo7jXR0REYTcOFQUstYPGnHiNBJPwVX) |
 | F2a input data | K13- and K19-associated input files required for Figure 2a | [Google Drive](https://drive.google.com/drive/folders/1jb5x-AuQng7ncpXCuwVc-eIMF2TDpxBC) |
-| Large intermediate datasets | Large-scale intermediate files | [Zenodo](https://zenodo.org/records/21964541) |
 | Raw sequencing data | Raw DMS sequencing reads | ENA accession: PRJEB123262 |
 
 The F2a input data folder contains the following files:
@@ -210,9 +209,8 @@ To reproduce the analyses and figures presented in the manuscript:
 1. Clone or download this GitHub repository.
 2. Install the `multimodalallostery` R package.
 3. Download the corresponding figure scripts and processed data from Google Drive.
-4. Download large intermediate datasets from Zenodo when required.
-5. Configure the input and output paths in the relevant scripts.
-6. Run the corresponding analysis scripts in R.
+4. Configure the input and output paths in the relevant scripts.
+5. Run the corresponding analysis scripts in R.
 
 The supplementary datasets directly associated with the manuscript are available in the `Supplementary_data/` directory.
 
